@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kiosk-Spectre", "Kiosk-Spectre\Kiosk-Spectre.csproj", "{ABECC1E1-B6EC-4E40-8397-A283FFFA2AFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{601C4FFA-052F-4C52-B2C9-F192D0C0D421}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABECC1E1-B6EC-4E40-8397-A283FFFA2AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABECC1E1-B6EC-4E40-8397-A283FFFA2AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABECC1E1-B6EC-4E40-8397-A283FFFA2AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABECC1E1-B6EC-4E40-8397-A283FFFA2AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{601C4FFA-052F-4C52-B2C9-F192D0C0D421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{601C4FFA-052F-4C52-B2C9-F192D0C0D421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{601C4FFA-052F-4C52-B2C9-F192D0C0D421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{601C4FFA-052F-4C52-B2C9-F192D0C0D421}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAF0AFC3-C534-47EC-BD99-0765EFF2BB8B}
+	EndGlobalSection
+EndGlobal
