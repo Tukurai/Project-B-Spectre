@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.DAL;
 
-namespace Common.Static
+namespace Common.Services
 {
     public class BaseService
     {

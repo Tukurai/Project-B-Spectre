@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Common.DAL.Models;
-using Common.Static;
+using Common.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Common.DAL

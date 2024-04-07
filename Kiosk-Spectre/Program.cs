@@ -1,50 +1,213 @@
 ﻿using Common.DAL;
-using Common.Navigation;
-using Common.Static;
+using Common.DAL.Models;
+using Common.Choices;
+using Common.Services;
 using Common.Workflows;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
 namespace Kiosk_Spectre
 {
     internal class Program
     {
+        public static bool Running { get; set; } = true;
+        public static bool ShowMenu { get; set; } = true;
+        public static Ticket? Ticket { get; set; }
+        public static ServiceProvider ServiceProvider { get; set; }
+        public static LocalizationService Localization { get; set; }
+        public static SettingsService Settings { get; set; }
+        public static PromptService Prompts { get; set; }
+        public static SettingsService Context { get; set; }
+
         static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
+            // Setup services
+            ServiceProvider = new ServiceCollection()
                 .AddSingleton<DepotContext>()
                 .AddSingleton<LocalizationService>()
-                .AddSingleton<ConfigService>()
-                .AddScoped<Workflow>()
+                .AddSingleton<SettingsService>()
+                .AddSingleton<PromptService>()
+                .AddSingleton<TicketService>()
+                .AddSingleton<TourService>()
+                .AddSingleton<GroupService>()
+                .AddScoped<CancelReservationFlow>()
+                .AddScoped<CreateReservationFlow>()
+                .AddScoped<ModifyReservationFlow>()
                 .BuildServiceProvider();
 
-            var LocalizationService = serviceProvider.GetService<LocalizationService>();
-            var ConfigService = serviceProvider.GetService<ConfigService>();
+            // Get services
+            Localization = ServiceProvider.GetService<LocalizationService>()!;
+            Settings = ServiceProvider.GetService<SettingsService>()!;
+            Prompts = ServiceProvider.GetService<PromptService>()!;
+            var TicketService = ServiceProvider.GetService<TicketService>()!;
+            var TourService = ServiceProvider.GetService<TourService>()!;
+            var DepotContext = ServiceProvider.GetService<DepotContext>()!;
 
-            var navigationChoice = AnsiConsole.Prompt(
-            new SelectionPrompt<NavigationChoice>()
-                .Title(LocalizationService!.Get("Kiosk_title")) // "Kiosk"
-                .PageSize(10)
-                .MoreChoicesText(LocalizationService!.Get("Kiosk_menu_more_options")) // "[grey](Move up and down to reveal more options)[/]"
-                .AddChoices(new List<NavigationChoice>() {
-                    new("Apple", DoApple), 
-                    new ("Apricot", DoApricot),
-                }));
+            // Setup context
+            DepotContext.LoadContext();
 
-            navigationChoice.NavigationAction();
+            // Menu loop
+            while (Running)
+            {
+                var ticketNumber = Prompts.AskTicketNumber();
+
+                Ticket = TicketService.GetTicket(ticketNumber)!; // Ticket can't be null here due to validation
+                AnsiConsole.Clear(); // Clear the console after the ticket has been scanned
+
+                while (ShowMenu)
+                {
+                    var tour = TourService.GetTourForTicket(Ticket.Id);
+
+                    (tour == null ? ReservationMenu() : ModificationMenu()).NavigationAction();
+                }
+                ShowMenu = true;
+            }
 
             Console.ReadLine();
         }
 
-        public static void DoApple()
+        public static NavigationChoice ReservationMenu()
         {
-            AnsiConsole.MarkupLine("You chose [green]apple[/]!");
+            var options = new List<NavigationChoice>() {
+                new(Localization.Get("Kiosk_reservation"), TourReservation),
+                new(Localization.Get("Kiosk_close"), () => { CloseMenu(); }),
+            };
+
+            // Menu for reservation
+            return Prompts.GetMenu("Kiosk_title", "Kiosk_menu_more_options", options);
         }
 
-        public static void DoApricot()
+        public static NavigationChoice ModificationMenu()
         {
-            AnsiConsole.MarkupLine("You chose [green]Apricot[/]!");
+            var options = new List<NavigationChoice>() {
+                new(Localization.Get("Kiosk_modification"), TourModification),
+                new(Localization.Get("Kiosk_cancellation"), TourCancellation),
+                new(Localization.Get("Kiosk_close"), () => { CloseMenu(); }),
+            };
+
+            // Menu for modification of a reservation
+            return Prompts.GetMenu("Kiosk_title", "Kiosk_menu_more_options", options);
+        }
+
+        private static void CloseMenu(string? message = null)
+        {
+            if (message != null)
+                AnsiConsole.MarkupLine(message);
+
+            AnsiConsole.MarkupLine(Localization.Get("Kiosk_close_message"));
+            Thread.Sleep(2000);
+
+            AnsiConsole.Clear();
+            ShowMenu = false;
+            return;
+        }
+
+        public static void TourReservation()
+        {
+            var flow = ServiceProvider.GetService<CreateReservationFlow>()!;
+
+            // Set ticket into flow
+            flow.SetTicket(Ticket);
+
+            // Ask for the amount of people to make a reservation for
+            var ticketAmount = Prompts.AskTicketAmounts();
+            AnsiConsole.Clear();
+
+            var table = new Table();
+            table.Title(Localization.Get("Reservation_flow_title"));
+            table.AddColumn(Localization.Get("Reservation_flow_ticket_column"));
+            table.AddRow($"# [green]{flow.GroupTickets.Last().Id}[/]");
+            AnsiConsole.Write(table);
+
+            // Ask for additional tickets if there are more than 1 people in this group
+            while (flow.GroupTickets.Count() < ticketAmount)
+            {
+                var addTicketResult = flow.AddTicket(Prompts.AskTicketNumber());
+                if (!addTicketResult.Success)
+                {
+                    AnsiConsole.MarkupLine(addTicketResult.Message);
+                    continue;
+                }
+
+                table.AddRow($"# [green]{flow.GroupTickets.Last().Id}[/]");
+                AnsiConsole.Clear();
+
+                AnsiConsole.Write(table);
+            }
+
+            // Choose a tour
+            var tour = Prompts.AskTour("Reservation_flow_ask_tour", "Reservation_flow_more_tours", ticketAmount);
+            flow.SetTour(tour);
+            AnsiConsole.MarkupLine(Localization.Get("Registration_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Reservation_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message);
+            }
+        }
+
+        public static void TourModification()
+        {
+            var flow = ServiceProvider.GetService<ModifyReservationFlow>()!;
+            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_title"));
+
+            var setTicketResult = flow.SetTicket(Ticket);
+            if (!setTicketResult.Success)
+            {
+                CloseMenu(setTicketResult.Message);
+                return;
+            }
+
+            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_tour", replacementStrings: new() { $"{flow.Tour!.Start.ToShortTimeString()}" }));
+
+            if (!Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
+            {
+                CloseMenu(Localization.Get("Modification_flow_not_changed"));
+                return;
+            }
+
+            // Choose a tour
+            var tour = Prompts.AskTour("Modification_flow_ask_tour", "Modification_flow_more_tours", flow.Group!.GroupTickets.Count);
+            
+            var setTourResult = flow.SetTour(tour);
+            if (!setTourResult.Success)
+            {
+                CloseMenu(setTourResult.Message);
+                return;
+            }
+
+            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                AnsiConsole.MarkupLine(commitResult.Message);
+                // We don't close the menu here, as the user might want to make more changes, or cancel after all.
+            }
+        }
+
+        public static void TourCancellation()
+        {
+            var flow = ServiceProvider.GetService<CancelReservationFlow>()!;
+            AnsiConsole.MarkupLine(Localization.Get("Cancellation_flow_title"));
+
+            var setTicketResult = flow.SetTicket(Ticket);
+            if (!setTicketResult.Success)
+            {
+                CloseMenu(setTicketResult.Message);
+                return;
+            }
+
+            AnsiConsole.MarkupLine(Localization.Get("Cancellation_flow_selected_tour", replacementStrings: new() { $"{flow.Tour!.Start.ToShortTimeString()}" }));
+
+            if (Prompts.AskConfirmation("Cancellation_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message);
+            }
         }
     }
 }
