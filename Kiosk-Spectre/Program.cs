@@ -15,9 +15,7 @@ namespace Kiosk_Spectre
         public static Ticket? Ticket { get; set; }
         public static ServiceProvider ServiceProvider { get; set; }
         public static LocalizationService Localization { get; set; }
-        public static SettingsService Settings { get; set; }
         public static PromptService Prompts { get; set; }
-        public static SettingsService Context { get; set; }
 
         static void Main(string[] args)
         {
@@ -30,6 +28,7 @@ namespace Kiosk_Spectre
                 .AddSingleton<TicketService>()
                 .AddSingleton<TourService>()
                 .AddSingleton<GroupService>()
+                .AddSingleton<UserService>()
                 .AddScoped<CancelReservationFlow>()
                 .AddScoped<CreateReservationFlow>()
                 .AddScoped<ModifyReservationFlow>()
@@ -37,14 +36,12 @@ namespace Kiosk_Spectre
 
             // Get services
             Localization = ServiceProvider.GetService<LocalizationService>()!;
-            Settings = ServiceProvider.GetService<SettingsService>()!;
             Prompts = ServiceProvider.GetService<PromptService>()!;
             var TicketService = ServiceProvider.GetService<TicketService>()!;
             var TourService = ServiceProvider.GetService<TourService>()!;
-            var DepotContext = ServiceProvider.GetService<DepotContext>()!;
 
             // Setup context
-            DepotContext.LoadContext();
+            ServiceProvider.GetService<DepotContext>()!.LoadContext();
 
             // Menu loop
             while (Running)
@@ -89,7 +86,7 @@ namespace Kiosk_Spectre
             return Prompts.GetMenu("Kiosk_title", "Kiosk_menu_more_options", options);
         }
 
-        private static void CloseMenu(string? message = null)
+        private static void CloseMenu(string? message = null, bool closeMenu = true)
         {
             if (message != null)
                 AnsiConsole.MarkupLine(message);
@@ -98,7 +95,7 @@ namespace Kiosk_Spectre
             Thread.Sleep(2000);
 
             AnsiConsole.Clear();
-            ShowMenu = false;
+            ShowMenu = !closeMenu;
             return;
         }
 
@@ -156,7 +153,7 @@ namespace Kiosk_Spectre
             var setTicketResult = flow.SetTicket(Ticket);
             if (!setTicketResult.Success)
             {
-                CloseMenu(setTicketResult.Message);
+                CloseMenu(setTicketResult.Message, false);
                 return;
             }
 
@@ -164,7 +161,7 @@ namespace Kiosk_Spectre
 
             if (!Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
             {
-                CloseMenu(Localization.Get("Modification_flow_not_changed"));
+                CloseMenu(Localization.Get("Modification_flow_not_changed"), false);
                 return;
             }
 
@@ -174,11 +171,11 @@ namespace Kiosk_Spectre
             var setTourResult = flow.SetTour(tour);
             if (!setTourResult.Success)
             {
-                CloseMenu(setTourResult.Message);
+                CloseMenu(setTourResult.Message, false);
                 return;
             }
 
-            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
+            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_new_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
 
             // Commit the flow.
             if (Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
@@ -186,6 +183,8 @@ namespace Kiosk_Spectre
                 var commitResult = flow.Commit();
                 AnsiConsole.MarkupLine(commitResult.Message);
                 // We don't close the menu here, as the user might want to make more changes, or cancel after all.
+                Thread.Sleep(2000);
+                AnsiConsole.Clear();
             }
         }
 
@@ -197,7 +196,7 @@ namespace Kiosk_Spectre
             var setTicketResult = flow.SetTicket(Ticket);
             if (!setTicketResult.Success)
             {
-                CloseMenu(setTicketResult.Message);
+                CloseMenu(setTicketResult.Message, false);
                 return;
             }
 

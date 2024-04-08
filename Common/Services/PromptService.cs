@@ -17,13 +17,15 @@ namespace Common.Services
         public LocalizationService Localization { get; }
         public TicketService TicketService { get; }
         public TourService TourService { get; }
+        public UserService UserService { get; }
 
         public PromptService(DepotContext context, SettingsService settings, LocalizationService localizationService,
-            TicketService ticketService, TourService tourService)
+            TicketService ticketService, TourService tourService, UserService userService)
             : base(context)
         {
             Localization = localizationService;
             TicketService = ticketService;
+            UserService = userService;
             TourService = tourService;
             Settings = settings;
         }
@@ -56,6 +58,21 @@ namespace Common.Services
                     .Validate(ticketNumberInput =>
                     {
                         var response = TicketService.ValidateTicketNumber(ticketNumberInput);
+
+                        return response.Valid ? ValidationResult.Success()
+                            : ValidationResult.Error(response.Message);
+                    }));
+        }
+
+        public int AskUserpass()
+        {
+            return AnsiConsole.Prompt(
+                new TextPrompt<int>(Localization.Get("Scan_userpass"))
+                    .PromptStyle("green")
+                    .ValidationErrorMessage(Localization.Get("Invalid_userpass"))
+                    .Validate(userpassInput =>
+                    {
+                        var response = UserService.ValidateUserpass(userpassInput);
 
                         return response.Valid ? ValidationResult.Success()
                             : ValidationResult.Error(response.Message);

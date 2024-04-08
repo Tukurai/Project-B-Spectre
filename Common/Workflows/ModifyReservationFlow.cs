@@ -74,7 +74,7 @@ namespace Common.Workflows
                 return (false, Localization.Get("Flow_no_new_tour"));
 
             Group!.GroupTickets.ForEach(groupTicket => Tour!.RegisteredTickets.Remove(groupTicket));
-            Tour!.RegisteredTickets.AddRange(Group.GroupTickets);
+            NewTour!.RegisteredTickets.AddRange(Group.GroupTickets);
 
             return base.Commit();
         }

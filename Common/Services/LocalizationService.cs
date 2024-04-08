@@ -36,15 +36,17 @@ namespace Common.Services
                 useReplacementString = false;
             }
 
+            var stringValue = translation.Value; // Detach the translation from the context
+
             if (replacementStrings != null && useReplacementString)
             {
                 for (int i = 0; i < replacementStrings.Count; i++)
                 {
-                    translation.Value = translation.Value.Replace($"{{{i}}}", replacementStrings[i]);
+                    stringValue = stringValue.Replace($"{{{i}}}", replacementStrings[i]);
                 }
             }
 
-            return translation?.Value ?? $"{key} | {locale} | NULL";
+            return stringValue;
         }
 
         private Translation Create(string key, string locale, List<string>? replacementStrings)
@@ -53,11 +55,11 @@ namespace Common.Services
             {
                 Key = key,
                 Locale = locale,
-                Value = $"{key} | {locale} |"
+                Value = $"{key} | {locale}"
             };
 
             for (int i = 0; i < replacementStrings?.Count; i++)
-                translation.Value += $" {{{i}}} = {replacementStrings[i]} |";
+                translation.Value += $" | {{{i}}} = {replacementStrings[i]}";
 
             var entry = Context.Translations.Add(translation);
 
