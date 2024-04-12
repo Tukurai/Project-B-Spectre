@@ -14,6 +14,8 @@ namespace Common.DAL
         public DbSet<Translation> Translations { get; set; }
         public DbSet<Setting> Settings { get; set; }
 
+        private bool _isLoaded { get; set; }
+
         public const string UsersPath = @"Json\Users.json";
         public const string ToursPath = @"Json\Tours.json";
         public const string GroupsPath = @"Json\Groups.json";
@@ -38,6 +40,8 @@ namespace Common.DAL
 
         public async void LoadContext()
         {
+            if(_isLoaded) return;
+
             LoadJson(Users, UsersPath);
             LoadJson(Tours, ToursPath);
             LoadJson(Groups, GroupsPath);
@@ -45,7 +49,26 @@ namespace Common.DAL
             LoadJson(Translations, TranslationsPath);
             LoadJson(Settings, SettingsPath);
 
+            _isLoaded = true;
+
             await SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Do not run this in production, this is for testing purposes only.
+        /// </summary>
+        public void Purge()
+        {
+            if (!_isLoaded) return;
+
+            Users.RemoveRange(Users);
+            Tours.RemoveRange(Tours);
+            Groups.RemoveRange(Groups);
+            Tickets.RemoveRange(Tickets);
+            Translations.RemoveRange(Translations);
+            Settings.RemoveRange(Settings);
+
+            _isLoaded = false;
         }
 
         public override int SaveChanges()

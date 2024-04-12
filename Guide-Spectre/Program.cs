@@ -31,9 +31,9 @@ namespace Guide_Spectre
                 .AddSingleton<TourService>()
                 .AddSingleton<GroupService>()
                 .AddSingleton<UserService>()
-                .AddScoped<CancelReservationFlow>()
-                .AddScoped<CreateReservationFlow>()
-                .AddScoped<ModifyReservationFlow>()
+                .AddScoped<RemoveTicketTourGuideFlow>()
+                .AddScoped<AddTicketTourGuideFlow>()
+                .AddScoped<StartTourGuideFlow>()
                 .BuildServiceProvider();
 
             // Get services
@@ -126,16 +126,135 @@ namespace Guide_Spectre
 
         private static void GuideRemoveTicket(Tour tour)
         {
-            CloseMenu(closeMenu:false, subMenu: true);
+            var flow = ServiceProvider.GetService<RemoveTicketTourGuideFlow>()!;
+
+            // Set tour into flow
+            var setTourResult = flow.SetTour(tour);
+            if (!setTourResult.Success)
+            {
+                CloseMenu(setTourResult.Message, false);
+                return;
+            }
+
+            var table = new Table();
+            table.Title(Localization.Get("Remove_ticket_flow_title"));
+            table.AddColumn(Localization.Get("Remove_ticket_flow_ticket_column"));
+            flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
+            AnsiConsole.Write(table);
+
+            while (flow.Tour.RegisteredTickets.Any())
+            {
+                flow.Tour.RegisteredTickets.Remove(Prompts.AskTicketNumber());
+                AnsiConsole.Clear();
+
+                table.Rows.Clear();
+                table.AddColumn(Localization.Get("Remove_ticket_flow_ticket_column"));
+                flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
+                AnsiConsole.Write(table);
+
+                if (flow.Tour.RegisteredTickets.Any() && Prompts.AskConfirmation("Remove_ticket_flow_ask_more_tickets"))
+                    break;
+            }
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Remove_ticket_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message);
+                return;
+            }
+
+            flow.Rollback();
+            CloseMenu(closeMenu: false, subMenu: true);
         }
 
         private static void GuideAddTicket(Tour tour)
         {
+            var settingsService = ServiceProvider.GetService<SettingsService>()!;
+            var flow = ServiceProvider.GetService<AddTicketTourGuideFlow>()!;
+
+            // Set tour into flow
+            var setTourResult = flow.SetTour(tour);
+            if (!setTourResult.Success)
+            {
+                CloseMenu(setTourResult.Message, false);
+                return;
+            }
+
+            var table = new Table();
+            table.Title(Localization.Get("Add_ticket_flow_title"));
+            table.AddColumn(Localization.Get("Add_ticket_flow_ticket_column"));
+            flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
+            AnsiConsole.Write(table);
+
+            while (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
+            {
+                var ticketNumber = Prompts.AskTicketNumber();
+                flow.Tour.RegisteredTickets.Add(ticketNumber);
+                AnsiConsole.Clear();
+
+                table.AddRow($"# [green]{ticketNumber}[/]");
+                AnsiConsole.Write(table);
+
+                if (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value 
+                    && Prompts.AskConfirmation("Add_ticket_flow_ask_more_tickets"))
+                    break;
+            }
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Add_ticket_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message);
+                return;
+            }
+
+            flow.Rollback();
             CloseMenu(closeMenu: false, subMenu: true);
         }
 
         private static void GuideStartTour(Tour tour)
         {
+            var settingsService = ServiceProvider.GetService<SettingsService>()!;
+            var flow = ServiceProvider.GetService<StartTourGuideFlow>()!;
+
+            // Set tour into flow
+            var setTourResult = flow.SetTour(tour);
+            if (!setTourResult.Success)
+            {
+                CloseMenu(setTourResult.Message, false);
+                return;
+            }
+
+            var table = new Table();
+            table.Title(Localization.Get("Add_ticket_flow_title"));
+            table.AddColumn(Localization.Get("Add_ticket_flow_ticket_column"));
+            flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
+            AnsiConsole.Write(table);
+
+            while (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
+            {
+                var ticketNumber = Prompts.AskTicketNumber();
+                flow.Tour.RegisteredTickets.Add(ticketNumber);
+                AnsiConsole.Clear();
+
+                table.AddRow($"# [green]{ticketNumber}[/]");
+                AnsiConsole.Write(table);
+
+                if (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value
+                    && Prompts.AskConfirmation("Add_ticket_flow_ask_more_tickets"))
+                    break;
+            }
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Add_ticket_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message);
+                return;
+            }
+
+            flow.Rollback();
             CloseMenu(closeMenu: false, subMenu: true);
         }
 

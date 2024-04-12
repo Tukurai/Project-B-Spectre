@@ -1,6 +1,7 @@
 ﻿using Common.DAL;
 using Common.DAL.Models;
 using Common.Services;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace Common.Workflows
 {
     public class Workflow
     {
+        private readonly IDbContextTransaction _transaction;
+
         public LocalizationService Localization { get; }
         public DepotContext Context { get; }
         public TicketService TicketService { get; }
@@ -20,13 +23,22 @@ namespace Common.Workflows
             Context = context;
             Localization = localizationService;
             TicketService = ticketService;
+            _transaction = context.Database.BeginTransaction();
         }
 
         public virtual (bool Succeeded, string Message) Commit()
         {
+            _transaction.Commit();
             Context.SaveChanges();
 
             return (true, Localization.Get("Commit_successful"));
+        }
+
+        public virtual (bool Succeeded, string Message) Rollback()
+        {
+            _transaction.Rollback();
+
+            return (true, Localization.Get("Rollback_successful"));
         }
 
         protected (bool Success, string Message) ValidateTicket(int ticketNumber) => ValidateTicket(TicketService.GetTicket(ticketNumber));
