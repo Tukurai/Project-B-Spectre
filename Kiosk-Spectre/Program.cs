@@ -15,6 +15,7 @@ namespace Kiosk_Spectre
         public static Ticket? Ticket { get; set; }
         public static ServiceProvider ServiceProvider { get; set; }
         public static LocalizationService Localization { get; set; }
+        public static TourService TourService { get; set; }
         public static PromptService Prompts { get; set; }
 
         static void Main(string[] args)
@@ -37,8 +38,8 @@ namespace Kiosk_Spectre
             // Get services
             Localization = ServiceProvider.GetService<LocalizationService>()!;
             Prompts = ServiceProvider.GetService<PromptService>()!;
+            TourService = ServiceProvider.GetService<TourService>()!;
             var TicketService = ServiceProvider.GetService<TicketService>()!;
-            var TourService = ServiceProvider.GetService<TourService>()!;
 
             // Setup context
             ServiceProvider.GetService<DepotContext>()!.LoadContext();
@@ -106,6 +107,13 @@ namespace Kiosk_Spectre
             // Set ticket into flow
             flow.SetTicket(Ticket);
 
+            // Choose a tour
+            if (!TourService.GetToursForToday(flow.GroupTickets.Count, 0, -1).Any())
+            {
+                CloseMenu(Localization.Get("Reservation_flow_no_tours"), false);
+                return;
+            }
+
             // Ask for the amount of people to make a reservation for
             var ticketAmount = Prompts.AskTicketAmounts();
             AnsiConsole.Clear();
@@ -132,10 +140,9 @@ namespace Kiosk_Spectre
                 AnsiConsole.Write(table);
             }
 
-            // Choose a tour
             var tour = Prompts.AskTour("Reservation_flow_ask_tour", "Reservation_flow_more_tours", ticketAmount);
             flow.SetTour(tour);
-            AnsiConsole.MarkupLine(Localization.Get("Registration_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
+            AnsiConsole.MarkupLine(Localization.Get("Reservation_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
 
             // Commit the flow.
             if (Prompts.AskConfirmation("Reservation_flow_ask_confirmation"))
