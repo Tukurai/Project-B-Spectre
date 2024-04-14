@@ -23,12 +23,10 @@ namespace Common.Workflows
             Context = context;
             Localization = localizationService;
             TicketService = ticketService;
-            _transaction = context.Database.BeginTransaction();
         }
 
         public virtual (bool Succeeded, string Message) Commit()
         {
-            _transaction.Commit();
             Context.SaveChanges();
 
             return (true, Localization.Get("Commit_successful"));
@@ -36,8 +34,6 @@ namespace Common.Workflows
 
         public virtual (bool Succeeded, string Message) Rollback()
         {
-            _transaction.Rollback();
-
             return (true, Localization.Get("Rollback_successful"));
         }
 

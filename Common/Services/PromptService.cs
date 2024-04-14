@@ -49,6 +49,7 @@ namespace Common.Services
                         return ValidationResult.Success();
                     }));
         }
+
         public int AskTicketNumber()
         {
             return AnsiConsole.Prompt(
@@ -61,6 +62,26 @@ namespace Common.Services
 
                         return response.Valid ? ValidationResult.Success()
                             : ValidationResult.Error(response.Message);
+                    }));
+        }
+
+        public int AskTicketNumberOrUserpass()
+        {
+            return AnsiConsole.Prompt(
+                new TextPrompt<int>(Localization.Get("Scan_ticket_or_userpass"))
+                    .PromptStyle("green")
+                    .ValidationErrorMessage(Localization.Get("Invalid_ticket_number_or_userpass"))
+                    .Validate(numberInput =>
+                    {
+                        var responseUser = UserService.ValidateUserpass(numberInput);
+                        if (responseUser.Valid)
+                            return ValidationResult.Success();
+
+                        var responseTicket = TicketService.ValidateTicketNumber(numberInput);
+                        if (responseTicket.Valid)
+                            return ValidationResult.Success();
+
+                        return ValidationResult.Error(responseTicket.Message);
                     }));
         }
 

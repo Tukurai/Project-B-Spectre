@@ -41,6 +41,8 @@ namespace Common.Workflows
             if (ScannedTickets.Count >= SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
                 return (false, Localization.Get("Flow_tour_no_space_for_tickets_in_tour"));
 
+            ScannedTickets.Add(ticketNumber);
+
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
 
@@ -51,8 +53,14 @@ namespace Common.Workflows
                 return validation;
 
             GuideId = userId;
+            ProgressStep();
 
-            switch(Step)
+            return (true, Localization.Get("Flow_next_step"));
+        }
+
+        public void ProgressStep()
+        {
+            switch (Step)
             {
                 case FlowStep.ScanRegistration:
                     Step = FlowStep.ScanExtra;
@@ -61,8 +69,6 @@ namespace Common.Workflows
                     Step = FlowStep.Finalize;
                     break;
             }
-
-            return (true, Localization.Get("Flow_next_step"));
         }
 
         public override (bool Succeeded, string Message) Commit()

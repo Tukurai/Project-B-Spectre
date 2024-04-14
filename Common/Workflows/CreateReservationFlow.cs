@@ -43,6 +43,9 @@ namespace Common.Workflows
             if (GroupTickets.Contains(ticket!))
                 return (false, Localization.Get("Flow_ticket_already_added"));
 
+            if (TourService.GetTourForTicket(ticketNumber) != null)
+                return (false, Localization.Get("Flow_ticket_already_in_other_tour"));
+
             GroupTickets.Add(ticket!);
 
             return validationResult;

@@ -137,23 +137,17 @@ namespace Guide_Spectre
                 return;
             }
 
-            var table = new Table();
-            table.Title(Localization.Get("Remove_ticket_flow_title"));
-            table.AddColumn(Localization.Get("Remove_ticket_flow_ticket_column"));
-            flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
-            AnsiConsole.Write(table);
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.TicketsToRemove, "Remove_ticket_flow_title", "Remove_ticket_flow_current_column", "Remove_ticket_flow_ticket_remove_column"));
 
             while (flow.Tour.RegisteredTickets.Any())
             {
-                flow.RemoveTicket(Prompts.AskTicketNumber());
+                var ticketNumber = Prompts.AskTicketNumber();
+                flow.RemoveTicket(ticketNumber);
                 AnsiConsole.Clear();
 
-                table.Rows.Clear();
-                table.AddColumn(Localization.Get("Remove_ticket_flow_ticket_column"));
-                flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
-                AnsiConsole.Write(table);
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.TicketsToRemove, "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column"));
 
-                if (flow.Tour.RegisteredTickets.Any() && Prompts.AskConfirmation("Remove_ticket_flow_ask_more_tickets"))
+                if (!flow.Tour.RegisteredTickets.Any() || !Prompts.AskConfirmation("Remove_ticket_flow_ask_more_tickets"))
                     break;
             }
 
@@ -183,11 +177,7 @@ namespace Guide_Spectre
                 return;
             }
 
-            var table = new Table();
-            table.Title(Localization.Get("Add_ticket_flow_title"));
-            table.AddColumn(Localization.Get("Add_ticket_flow_ticket_column"));
-            flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
-            AnsiConsole.Write(table);
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.TicketsToAdd, "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column"));
 
             while (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
             {
@@ -195,11 +185,10 @@ namespace Guide_Spectre
                 flow.AddTicket(ticketNumber);
                 AnsiConsole.Clear();
 
-                table.AddRow($"# [green]{ticketNumber}[/]");
-                AnsiConsole.Write(table);
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.TicketsToAdd, "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column"));
 
-                if (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value 
-                    && Prompts.AskConfirmation("Add_ticket_flow_ask_more_tickets"))
+                if (flow.Tour.RegisteredTickets.Count >= settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value
+                    || !Prompts.AskConfirmation("Add_ticket_flow_ask_more_tickets"))
                     break;
             }
 
@@ -229,13 +218,19 @@ namespace Guide_Spectre
                 return;
             }
 
-            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets, "Start_tour_flow_title", "Start_tour_flow_ticket_todo_column", "Start_tour_flow_ticket_done_column"));
 
+            // Scan registered tickets
             ScanTickets(flow, flow.Tour.RegisteredTickets.Count, FlowStep.ScanRegistration);
 
             AnsiConsole.MarkupLine(Localization.Get("Start_tour_flow_scan_extra"));
 
+            // Scan extra tickets
             ScanTickets(flow, settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value, FlowStep.ScanRegistration);
+
+            // Scan guide badge if not done yet.
+            if (flow.GuideId == 0)
+                flow.ScanBadge(Prompts.AskUserpass());
 
             // Commit the flow.
             if (Prompts.AskConfirmation("Start_tour_flow_ask_confirmation"))
@@ -253,34 +248,38 @@ namespace Guide_Spectre
         {
             while (flow.ScannedTickets.Count < maxTickets)
             {
-                var ticketNumber = Prompts.AskTicketNumber();
-                if (ticketNumber.ToString().Length >= 8) // Guide & manager badges have an id with less then 8 digits. 
-                    flow.AddScannedTicket(ticketNumber, step == FlowStep.ScanExtra);
+                var ticketNumber = Prompts.AskTicketNumberOrUserpass();
+                if (ticketNumber >= 10000000) // Guide & manager badges have an id with less then 8 digits. 
+                    flow.AddScannedTicket(ticketNumber, flow.Step == step);
                 else
                     flow.ScanBadge(ticketNumber);
                 AnsiConsole.Clear();
 
-                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets, "Start_tour_flow_title", "Start_tour_flow_ticket_todo_column", "Start_tour_flow_ticket_done_column"));
 
-                if (flow.Tour.RegisteredTickets.Count >= flow.ScannedTickets.Count || flow.Step != step)
+                if (flow.ScannedTickets.Count >= maxTickets || flow.Step != step)
+                {
+                    if (flow.Step == step)
+                        flow.ProgressStep();
                     break;
+                }
             }
         }
 
-        private static Table GenerateTable(List<int> registered, List<int> scanned)
+        private static Table GenerateTable(List<int> baseSet, List<int> scanSet, string keyTitle, string keyColumnBase, string keyColumnScan, string colorBase = "red", string colorScan = "green")
         {
             var table = new Table();
-            table.Title(Localization.Get("Start_tour_flow_title"));
-            table.AddColumn(Localization.Get("Start_tour_flow_ticket_todo_column"));
-            table.AddColumn(Localization.Get("Start_tour_flow_ticket_done_column"));
-            scanned.ForEach(ticket => registered.Remove(ticket));
+            table.Title(Localization.Get(keyTitle));
+            table.AddColumn(Localization.Get(keyColumnBase));
+            table.AddColumn(Localization.Get(keyColumnScan));
+            scanSet.ForEach(ticket => baseSet.Remove(ticket));
 
-            int maxIterations = Math.Max(registered.Count, scanned.Count);
+            int maxIterations = Math.Max(baseSet.Count, scanSet.Count);
 
             for (int i = 0; i < maxIterations; i++)
             {
-                var registeredTicket = i < registered.Count ? $"# [red]{registered[i]}[/]" : "";
-                var scannedTicket = i < scanned.Count ? $"# [green]{scanned[i]}[/]" : "";
+                var registeredTicket = i < baseSet.Count ? $"# [{colorBase}]{baseSet[i]}[/]" : "";
+                var scannedTicket = i < scanSet.Count ? $"# [{colorScan}]{scanSet[i]}[/]" : "";
 
                 table.AddRow(registeredTicket, scannedTicket);
             }

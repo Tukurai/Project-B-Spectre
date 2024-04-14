@@ -25,11 +25,13 @@ namespace Common.Workflows
             if (!validation.Success)
                 return validation;
 
-            if(Tour!.RegisteredTickets.All(t => t != ticketNumber))
+            if(!Tour!.RegisteredTickets.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_not_in_tour"));
 
             if (TicketsToRemove.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
+
+            TicketsToRemove.Add(ticketNumber);
 
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
