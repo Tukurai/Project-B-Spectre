@@ -231,37 +231,11 @@ namespace Guide_Spectre
 
             AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
 
-            while (flow.Tour.RegisteredTickets.Count > flow.ScannedTickets.Count)
-            {
-                var ticketNumber = Prompts.AskTicketNumber();
-                if (ticketNumber.ToString().Length >= 8) // Guide & manager badges have an id with less then 8 digits. 
-                    flow.AddScannedTicket(ticketNumber);
-                else
-                    flow.ScanBadge(ticketNumber);
-                AnsiConsole.Clear();
-
-                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
-
-                if (flow.Tour.RegisteredTickets.Count >= flow.ScannedTickets.Count || flow.Step != FlowStep.ScanRegistration)
-                    break;
-            }
+            ScanTickets(flow, flow.Tour.RegisteredTickets.Count, FlowStep.ScanRegistration);
 
             AnsiConsole.MarkupLine(Localization.Get("Start_tour_flow_scan_extra"));
 
-            while (flow.ScannedTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
-            {
-                var ticketNumber = Prompts.AskTicketNumber();
-                if (ticketNumber.ToString().Length >= 8)
-                    flow.AddScannedTicket(ticketNumber, true);
-                else
-                    flow.ScanBadge(ticketNumber);
-                AnsiConsole.Clear();
-
-                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
-
-                if (flow.Tour.RegisteredTickets.Count >= flow.ScannedTickets.Count || flow.Step != FlowStep.ScanExtra)
-                    break;
-            }
+            ScanTickets(flow, settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value, FlowStep.ScanRegistration);
 
             // Commit the flow.
             if (Prompts.AskConfirmation("Start_tour_flow_ask_confirmation"))
@@ -273,6 +247,24 @@ namespace Guide_Spectre
 
             flow.Rollback();
             CloseMenu(closeMenu: false, subMenu: true);
+        }
+
+        public static void ScanTickets(StartTourGuideFlow flow, int maxTickets, FlowStep step)
+        {
+            while (flow.ScannedTickets.Count < maxTickets)
+            {
+                var ticketNumber = Prompts.AskTicketNumber();
+                if (ticketNumber.ToString().Length >= 8) // Guide & manager badges have an id with less then 8 digits. 
+                    flow.AddScannedTicket(ticketNumber, step == FlowStep.ScanExtra);
+                else
+                    flow.ScanBadge(ticketNumber);
+                AnsiConsole.Clear();
+
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
+
+                if (flow.Tour.RegisteredTickets.Count >= flow.ScannedTickets.Count || flow.Step != step)
+                    break;
+            }
         }
 
         private static Table GenerateTable(List<int> registered, List<int> scanned)
