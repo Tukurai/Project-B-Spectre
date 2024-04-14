@@ -132,6 +132,7 @@ namespace Guide_Spectre
             var setTourResult = flow.SetTour(tour);
             if (!setTourResult.Success)
             {
+                flow.Rollback();
                 CloseMenu(setTourResult.Message, false);
                 return;
             }
@@ -144,7 +145,7 @@ namespace Guide_Spectre
 
             while (flow.Tour.RegisteredTickets.Any())
             {
-                flow.Tour.RegisteredTickets.Remove(Prompts.AskTicketNumber());
+                flow.RemoveTicket(Prompts.AskTicketNumber());
                 AnsiConsole.Clear();
 
                 table.Rows.Clear();
@@ -177,6 +178,7 @@ namespace Guide_Spectre
             var setTourResult = flow.SetTour(tour);
             if (!setTourResult.Success)
             {
+                flow.Rollback();
                 CloseMenu(setTourResult.Message, false);
                 return;
             }
@@ -190,7 +192,7 @@ namespace Guide_Spectre
             while (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
             {
                 var ticketNumber = Prompts.AskTicketNumber();
-                flow.Tour.RegisteredTickets.Add(ticketNumber);
+                flow.AddTicket(ticketNumber);
                 AnsiConsole.Clear();
 
                 table.AddRow($"# [green]{ticketNumber}[/]");
@@ -222,32 +224,47 @@ namespace Guide_Spectre
             var setTourResult = flow.SetTour(tour);
             if (!setTourResult.Success)
             {
+                flow.Rollback();
                 CloseMenu(setTourResult.Message, false);
                 return;
             }
 
-            var table = new Table();
-            table.Title(Localization.Get("Add_ticket_flow_title"));
-            table.AddColumn(Localization.Get("Add_ticket_flow_ticket_column"));
-            flow.Tour!.RegisteredTickets.ForEach(ticket => table.AddRow($"# [green]{ticket}[/]"));
-            AnsiConsole.Write(table);
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
 
-            while (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
+            while (flow.Tour.RegisteredTickets.Count > flow.ScannedTickets.Count)
             {
                 var ticketNumber = Prompts.AskTicketNumber();
-                flow.Tour.RegisteredTickets.Add(ticketNumber);
+                if (ticketNumber.ToString().Length >= 8) // Guide & manager badges have an id with less then 8 digits. 
+                    flow.AddScannedTicket(ticketNumber);
+                else
+                    flow.ScanBadge(ticketNumber);
                 AnsiConsole.Clear();
 
-                table.AddRow($"# [green]{ticketNumber}[/]");
-                AnsiConsole.Write(table);
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
 
-                if (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value
-                    && Prompts.AskConfirmation("Add_ticket_flow_ask_more_tickets"))
+                if (flow.Tour.RegisteredTickets.Count >= flow.ScannedTickets.Count || flow.Step != FlowStep.ScanRegistration)
+                    break;
+            }
+
+            AnsiConsole.MarkupLine(Localization.Get("Start_tour_flow_scan_extra"));
+
+            while (flow.ScannedTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
+            {
+                var ticketNumber = Prompts.AskTicketNumber();
+                if (ticketNumber.ToString().Length >= 8)
+                    flow.AddScannedTicket(ticketNumber, true);
+                else
+                    flow.ScanBadge(ticketNumber);
+                AnsiConsole.Clear();
+
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets, flow.ScannedTickets));
+
+                if (flow.Tour.RegisteredTickets.Count >= flow.ScannedTickets.Count || flow.Step != FlowStep.ScanExtra)
                     break;
             }
 
             // Commit the flow.
-            if (Prompts.AskConfirmation("Add_ticket_flow_ask_confirmation"))
+            if (Prompts.AskConfirmation("Start_tour_flow_ask_confirmation"))
             {
                 var commitResult = flow.Commit();
                 CloseMenu(commitResult.Message);
@@ -256,6 +273,27 @@ namespace Guide_Spectre
 
             flow.Rollback();
             CloseMenu(closeMenu: false, subMenu: true);
+        }
+
+        private static Table GenerateTable(List<int> registered, List<int> scanned)
+        {
+            var table = new Table();
+            table.Title(Localization.Get("Start_tour_flow_title"));
+            table.AddColumn(Localization.Get("Start_tour_flow_ticket_todo_column"));
+            table.AddColumn(Localization.Get("Start_tour_flow_ticket_done_column"));
+            scanned.ForEach(ticket => registered.Remove(ticket));
+
+            int maxIterations = Math.Max(registered.Count, scanned.Count);
+
+            for (int i = 0; i < maxIterations; i++)
+            {
+                var registeredTicket = i < registered.Count ? $"# [red]{registered[i]}[/]" : "";
+                var scannedTicket = i < scanned.Count ? $"# [green]{scanned[i]}[/]" : "";
+
+                table.AddRow(registeredTicket, scannedTicket);
+            }
+
+            return table;
         }
 
         private static void CloseMenu(string? message = null, bool closeMenu = true, bool subMenu = false, bool instant = false)

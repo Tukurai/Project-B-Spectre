@@ -13,12 +13,28 @@ namespace Common.Workflows
 {
     public class AddTicketTourGuideFlow : TourGuideFlow
     {
+        public List<int> TicketsToAdd { get; private set; } = new List<int>();
         private SettingsService SettingsService { get; }
 
         public AddTicketTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService, SettingsService settingsService) 
             : base(context, localizationService, ticketService, tourService)
         {
             SettingsService = settingsService;
+        }
+
+        public (bool Success, string Message) AddTicket(int ticketNumber)
+        {
+            var validation = ValidateTicket(ticketNumber);
+            if (!validation.Success)
+                return validation;
+
+            if (Tour!.RegisteredTickets.All(t => t != ticketNumber))
+                return (false, Localization.Get("Flow_ticket_not_in_tour"));
+
+            if (TicketsToAdd.Contains(ticketNumber))
+                return (false, Localization.Get("Flow_ticket_already_added_to_list"));
+
+            return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
 
         public override (bool Success, string Message) SetTour(Tour? tour)
@@ -33,6 +49,16 @@ namespace Common.Workflows
                 return (false, Localization.Get("Flow_tour_no_space_for_tickets_in_tour"));
 
             return (true, Localization.Get("flow_tour_is_valid"));
+        }
+
+        public override (bool Succeeded, string Message) Commit()
+        {
+            if (!TicketsToAdd.Any())
+                return (false, Localization.Get("Flow_no_tickets_to_add"));
+
+            TicketsToAdd.ForEach(t => Tour!.RegisteredTickets.Add(t));
+
+            return base.Commit();
         }
     }
 }
