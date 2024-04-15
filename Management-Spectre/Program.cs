@@ -65,9 +65,9 @@ namespace Management_Spectre
                 new(Localization.Get("Management_plan_tours_today"), () => { PlanTour(DateTime.Today); }),
                 new(Localization.Get("Management_plan_tours_tomorrow"), () => { PlanTour(DateTime.Today.AddDays(1)); }),
                 new(Localization.Get("Management_plan_tours_in_future"), () => { PlanTour(); }),
-                new(Localization.Get("Management_view_tours"), () => { ViewTours(); }),
-                new(Localization.Get("Management_user_creation"), () => { CloseMenu(); }),
-                new(Localization.Get("Management_view_users"), () => { ViewUsers(); }),
+                new(Localization.Get("Management_view_tours"), ViewTours),
+                new(Localization.Get("Management_user_creation"), CreateUser),
+                new(Localization.Get("Management_view_users"), ViewUsers),
                 new(Localization.Get("Management_close"), () => { CloseMenu(); }),
             };
 
@@ -76,8 +76,42 @@ namespace Management_Spectre
 
         private static void ViewUsers()
         {
-            throw new NotImplementedException();
+            var userService = ServiceProvider.GetService<UserService>()!;
+
+            var currentUsers = userService.GetAllUsers();
+
+            var currentPlanningTable = new Table();
+            currentPlanningTable.AddColumn(Localization.Get("View_user_id_column"));
+            currentPlanningTable.AddColumn(Localization.Get("View_user_role_column"));
+            currentPlanningTable.AddColumn(Localization.Get("View_user_name_column"));
+            currentPlanningTable.AddColumn(Localization.Get("View_user_enabled_column"));
+
+            foreach (var user in currentUsers)
+            {
+                var id = $"[grey]{user.Id}[/]";
+                var role = $"[blue]{(Role)user.Role}[/]";
+                var name = $"[green]{user.Name}[/]";
+                var enabled = user.Enabled ? "[green]enabled[/]" : "[red]disabled[/]";
+
+                currentPlanningTable.AddRow(id, role, name, enabled);
+            }
+
+            var currentPlanningHeader = new Rule(Localization.Get("View_user_current_users"));
+            currentPlanningHeader.Justification = Justify.Left;
+            AnsiConsole.Write(currentPlanningHeader);
+            AnsiConsole.Write(currentPlanningTable);
+
+            AnsiConsole.WriteLine(Localization.Get("View_user_press_any_key_to_continue"));
+
+            Console.ReadKey();
+
             CloseMenu(closeMenu: false);
+            return;
+        }
+
+        private static void CreateUser()
+        {
+            throw new NotImplementedException();
         }
 
         private static void ViewTours()
@@ -92,7 +126,7 @@ namespace Management_Spectre
             var currentPlanningTable = new Table();
             currentPlanningTable.AddColumn(Localization.Get("View_tour_date_column"));
             currentPlanningTable.AddColumn(Localization.Get("View_tour_time_column"));
-
+            
             foreach (var (date, tours) in currentPlanning)
                 currentPlanningTable.AddRow($"[green]{date.ToString("dd/MM/yyyy")}[/]", string.Join(", ", tours.Select(tour => $"[blue]{tour.Start.ToString("hh\\:mm")}[/]")));
 

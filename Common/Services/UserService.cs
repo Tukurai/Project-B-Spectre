@@ -34,7 +34,7 @@ namespace Common.Services
             if (user == null)
                 return new(false, Localization.Get("User_does_not_exist"));
 
-            if (user.Role < (int)allowedRole)
+            if (user.Role >= (int)allowedRole)
             {
                 return new(false, Localization.Get("User_has_no_access"));
             }
@@ -47,6 +47,9 @@ namespace Common.Services
             return Context.Users.Find(userpass);
         }
 
-
+        public List<User> GetAllUsers()
+        {
+            return [.. Context.Users];
+        }
     }
 }
