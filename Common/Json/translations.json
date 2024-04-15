@@ -1,133 +1,133 @@
 [
   {
     "Key": "Scan_ticket",
-    "Value": "Scan_ticket | nl-NL",
+    "Value": "Scan uw [darkorange]ticket[/]:",
     "Locale": "nl-NL",
     "Id": 1
   },
   {
     "Key": "Invalid_ticket_number",
-    "Value": "Invalid_ticket_number | nl-NL",
+    "Value": "[red]Ongeldig ticket[/]",
     "Locale": "nl-NL",
     "Id": 2
   },
   {
     "Key": "Ticket_is_valid",
-    "Value": "Ticket_is_valid | nl-NL",
+    "Value": "[green]Geldig ticket[/]",
     "Locale": "nl-NL",
     "Id": 3
   },
   {
     "Key": "Kiosk_modification",
-    "Value": "Kiosk_modification | nl-NL",
+    "Value": "Reservering [darkorange]wijzigen[/]",
     "Locale": "nl-NL",
     "Id": 4
   },
   {
     "Key": "Kiosk_cancellation",
-    "Value": "Kiosk_cancellation | nl-NL",
+    "Value": "Reservering [red]verwijderen[/]",
     "Locale": "nl-NL",
     "Id": 5
   },
   {
     "Key": "Kiosk_close",
-    "Value": "Kiosk_close | nl-NL",
+    "Value": "Menu [red]afsluiten[/]",
     "Locale": "nl-NL",
     "Id": 6
   },
   {
     "Key": "Kiosk_title",
-    "Value": "Kiosk_title | nl-NL",
+    "Value": "Welkom bij het Depot!\nHier kunt u uw rondleiding [green]plannen[/] en [red]wijzigen[/].",
     "Locale": "nl-NL",
     "Id": 7
   },
   {
     "Key": "Kiosk_menu_more_options",
-    "Value": "Kiosk_menu_more_options | nl-NL",
+    "Value": "[grey]Meer opties[/]",
     "Locale": "nl-NL",
     "Id": 8
   },
   {
     "Key": "Modification_flow_title",
-    "Value": "Modification_flow_title | nl-NL",
+    "Value": "Reservering [darkorange]wijzigen[/].",
     "Locale": "nl-NL",
     "Id": 9
   },
   {
     "Key": "Flow_ticket_valid",
-    "Value": "Flow_ticket_valid | nl-NL",
+    "Value": "[green]Geldig ticket[/]",
     "Locale": "nl-NL",
     "Id": 10
   },
   {
     "Key": "Modification_flow_selected_tour",
-    "Value": "Modification_flow_selected_tour | nl-NL | {0} = 12:00 PM",
+    "Value": "U heeft nu de rondleiding van [blue]{0}[/] gereserveerd.\n",
     "Locale": "nl-NL",
     "Id": 11
   },
   {
     "Key": "Modification_flow_ask_confirmation",
-    "Value": "Modification_flow_ask_confirmation | nl-NL",
+    "Value": "Weet u zeker dat u deze reservering wilt [darkorange]wijzigen[/]?\nUw reservering vervalt pas als u uw nieuwe rondleiding [green]bevestigd[/].",
     "Locale": "nl-NL",
     "Id": 12
   },
   {
     "Key": "Choice_yes",
-    "Value": "Choice_yes | nl-NL",
+    "Value": "Ja",
     "Locale": "nl-NL",
     "Id": 13
   },
   {
     "Key": "Choice_no",
-    "Value": "Choice_no | nl-NL",
+    "Value": "Nee",
     "Locale": "nl-NL",
     "Id": 14
   },
   {
     "Key": "Modification_flow_ask_tour",
-    "Value": "Modification_flow_ask_tour | nl-NL",
+    "Value": "Voor welke rondleiding wilt u [green]reserveren[/]?",
     "Locale": "nl-NL",
     "Id": 15
   },
   {
     "Key": "Modification_flow_more_tours",
-    "Value": "Modification_flow_more_tours | nl-NL",
+    "Value": "[grey]Meer rondleidingen tonen[/]",
     "Locale": "nl-NL",
     "Id": 16
   },
   {
     "Key": "Modification_flow_selected_new_tour",
-    "Value": "Modification_flow_selected_new_tour | nl-NL | {0} = 12:20 PM",
+    "Value": "Uw nieuwe reservering is om [blue]{0}[/].\n",
     "Locale": "nl-NL",
     "Id": 17
   },
   {
     "Key": "Commit_successful",
-    "Value": "Commit_successful | nl-NL",
+    "Value": "[green]Wijzigingen opgeslagen.[/]",
     "Locale": "nl-NL",
     "Id": 18
   },
   {
     "Key": "Scan_userpass",
-    "Value": "Scan_userpass | nl-NL",
+    "Value": "Scan uw [darkorange]pas[/]:",
     "Locale": "nl-NL",
     "Id": 19
   },
   {
     "Key": "Invalid_userpass",
-    "Value": "Invalid_userpass | nl-NL",
+    "Value": "[red]Ongeldige pas[/]",
     "Locale": "nl-NL",
     "Id": 20
   },
   {
     "Key": "User_is_valid",
-    "Value": "User_is_valid | nl-NL",
+    "Value": "[green]Gebruiker gevalideerd[/]",
     "Locale": "nl-NL",
     "Id": 21
   },
   {
     "Key": "User_has_access",
-    "Value": "User_has_access | nl-NL",
+    "Value": "[green]Gebruiker heeft toegang[/]",
     "Locale": "nl-NL",
     "Id": 22
   },
@@ -166,5 +166,551 @@
     "Value": "Gesloten",
     "Locale": "nl-NL",
     "Id": 28
+  },
+  {
+    "Key": "Management_plan_tours_today",
+    "Value": "Management_plan_tours_today | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 29
+  },
+  {
+    "Key": "Management_plan_tours_tomorrow",
+    "Value": "Management_plan_tours_tomorrow | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 30
+  },
+  {
+    "Key": "Management_plan_tours_in_future",
+    "Value": "Management_plan_tours_in_future | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 31
+  },
+  {
+    "Key": "Management_view_tours",
+    "Value": "Management_view_tours | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 32
+  },
+  {
+    "Key": "Management_user_creation",
+    "Value": "Management_user_creation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 33
+  },
+  {
+    "Key": "Management_view_users",
+    "Value": "Management_view_users | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 34
+  },
+  {
+    "Key": "Management_close",
+    "Value": "Management_close | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 35
+  },
+  {
+    "Key": "Management_title",
+    "Value": "Management_title | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 36
+  },
+  {
+    "Key": "Management_menu_more_options",
+    "Value": "Management_menu_more_options | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 37
+  },
+  {
+    "Key": "Flow_date_start_null",
+    "Value": "Flow_date_start_null | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 38
+  },
+  {
+    "Key": "Create_tour_flow_start_date",
+    "Value": "Create_tour_flow_start_date | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 39
+  },
+  {
+    "Key": "Create_tour_flow_more_dates",
+    "Value": "Create_tour_flow_more_dates | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 40
+  },
+  {
+    "Key": "Create_tour_flow_end_date",
+    "Value": "Create_tour_flow_end_date | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 41
+  },
+  {
+    "Key": "Flow_date_span_set",
+    "Value": "Flow_date_span_set | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 42
+  },
+  {
+    "Key": "Create_tour_flow_start_time",
+    "Value": "Create_tour_flow_start_time | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 43
+  },
+  {
+    "Key": "Create_tour_flow_more_times",
+    "Value": "Create_tour_flow_more_times | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 44
+  },
+  {
+    "Key": "Create_tour_flow_end_time",
+    "Value": "Create_tour_flow_end_time | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 45
+  },
+  {
+    "Key": "Flow_time_span_set",
+    "Value": "Flow_time_span_set | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 46
+  },
+  {
+    "Key": "Create_tour_flow_interval",
+    "Value": "Create_tour_flow_interval | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 47
+  },
+  {
+    "Key": "Create_tour_flow_interval_invalid",
+    "Value": "Create_tour_flow_interval_invalid | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 48
+  },
+  {
+    "Key": "Flow_interval_set",
+    "Value": "Flow_interval_set | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 49
+  },
+  {
+    "Key": "Create_tour_flow_date_column",
+    "Value": "Create_tour_flow_date_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 50
+  },
+  {
+    "Key": "Create_tour_flow_time_column",
+    "Value": "Create_tour_flow_time_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 51
+  },
+  {
+    "Key": "Create_tour_flow_new_planning",
+    "Value": "Create_tour_flow_new_planning | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 52
+  },
+  {
+    "Key": "Create_tour_flow_old_planning",
+    "Value": "Create_tour_flow_old_planning | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 53
+  },
+  {
+    "Key": "Create_tour_flow_overwrite_current_confirmation",
+    "Value": "Create_tour_flow_overwrite_current_confirmation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 54
+  },
+  {
+    "Key": "Create_tour_flow_ask_confirmation",
+    "Value": "Create_tour_flow_ask_confirmation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 55
+  },
+  {
+    "Key": "Management_close_message",
+    "Value": "Management_close_message | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 56
+  },
+  {
+    "Key": "View_tour_start_date",
+    "Value": "View_tour_start_date | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 57
+  },
+  {
+    "Key": "View_tour_more_dates",
+    "Value": "View_tour_more_dates | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 58
+  },
+  {
+    "Key": "View_tour_end_date",
+    "Value": "View_tour_end_date | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 59
+  },
+  {
+    "Key": "View_tour_date_column",
+    "Value": "View_tour_date_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 60
+  },
+  {
+    "Key": "View_tour_time_column",
+    "Value": "View_tour_time_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 61
+  },
+  {
+    "Key": "View_tour_current_planning",
+    "Value": "View_tour_current_planning | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 62
+  },
+  {
+    "Key": "View_tour_press_any_key_to_continue",
+    "Value": "View_tour_press_any_key_to_continue | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 63
+  },
+  {
+    "Key": "View_user_id_column",
+    "Value": "View_user_id_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 64
+  },
+  {
+    "Key": "View_user_role_column",
+    "Value": "View_user_role_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 65
+  },
+  {
+    "Key": "View_user_name_column",
+    "Value": "View_user_name_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 66
+  },
+  {
+    "Key": "View_user_enabled_column",
+    "Value": "View_user_enabled_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 67
+  },
+  {
+    "Key": "View_user_current_users",
+    "Value": "View_user_current_users | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 68
+  },
+  {
+    "Key": "View_user_press_any_key_to_continue",
+    "Value": "View_user_press_any_key_to_continue | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 69
+  },
+  {
+    "Key": "Guide_view_tour_title",
+    "Value": "Guide_view_tour_title | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 70
+  },
+  {
+    "Key": "Guide_view_tour_description",
+    "Value": "Guide_view_tour_description | nl-NL | {0} = 15:20 | {1} = Open | {2} = (0/13)",
+    "Locale": "nl-NL",
+    "Id": 71
+  },
+  {
+    "Key": "Guide_view_tour_tickets",
+    "Value": "Guide_view_tour_tickets | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 72
+  },
+  {
+    "Key": "Guide_view_tour_no_tickets",
+    "Value": "Guide_view_tour_no_tickets | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 73
+  },
+  {
+    "Key": "Guide_start_tour",
+    "Value": "Guide_start_tour | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 74
+  },
+  {
+    "Key": "Guide_add_ticket",
+    "Value": "Guide_add_ticket | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 75
+  },
+  {
+    "Key": "Guide_remove_ticket",
+    "Value": "Guide_remove_ticket | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 76
+  },
+  {
+    "Key": "flow_tour_is_valid",
+    "Value": "flow_tour_is_valid | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 77
+  },
+  {
+    "Key": "Add_ticket_flow_title",
+    "Value": "Add_ticket_flow_title | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 78
+  },
+  {
+    "Key": "Add_ticket_flow_ticket_current_column",
+    "Value": "Add_ticket_flow_ticket_current_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 79
+  },
+  {
+    "Key": "Add_ticket_flow_ticket_add_column",
+    "Value": "Add_ticket_flow_ticket_add_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 80
+  },
+  {
+    "Key": "Flow_ticket_added_to_list",
+    "Value": "Flow_ticket_added_to_list | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 81
+  },
+  {
+    "Key": "Add_ticket_flow_ask_more_tickets",
+    "Value": "Add_ticket_flow_ask_more_tickets | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 82
+  },
+  {
+    "Key": "Add_ticket_flow_ask_confirmation",
+    "Value": "Add_ticket_flow_ask_confirmation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 83
+  },
+  {
+    "Key": "Guide_close_message",
+    "Value": "Guide_close_message | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 84
+  },
+  {
+    "Key": "Flow_ticket_already_in_tour",
+    "Value": "Flow_ticket_already_in_tour | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 85
+  },
+  {
+    "Key": "Remove_ticket_flow_title",
+    "Value": "Remove_ticket_flow_title | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 86
+  },
+  {
+    "Key": "Remove_ticket_flow_current_column",
+    "Value": "Remove_ticket_flow_current_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 87
+  },
+  {
+    "Key": "Remove_ticket_flow_ticket_remove_column",
+    "Value": "Remove_ticket_flow_ticket_remove_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 88
+  },
+  {
+    "Key": "Remove_ticket_flow_ask_more_tickets",
+    "Value": "Remove_ticket_flow_ask_more_tickets | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 89
+  },
+  {
+    "Key": "Remove_ticket_flow_ask_confirmation",
+    "Value": "Remove_ticket_flow_ask_confirmation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 90
+  },
+  {
+    "Key": "Start_tour_flow_title",
+    "Value": "Start_tour_flow_title | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 91
+  },
+  {
+    "Key": "Start_tour_flow_ticket_todo_column",
+    "Value": "Start_tour_flow_ticket_todo_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 92
+  },
+  {
+    "Key": "Start_tour_flow_ticket_done_column",
+    "Value": "Start_tour_flow_ticket_done_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 93
+  },
+  {
+    "Key": "Scan_ticket_or_userpass",
+    "Value": "Scan_ticket_or_userpass | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 94
+  },
+  {
+    "Key": "Invalid_ticket_number_or_userpass",
+    "Value": "Invalid_ticket_number_or_userpass | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 95
+  },
+  {
+    "Key": "User_does_not_exist",
+    "Value": "User_does_not_exist | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 96
+  },
+  {
+    "Key": "Start_tour_flow_scan_extra",
+    "Value": "Start_tour_flow_scan_extra | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 97
+  },
+  {
+    "Key": "Flow_next_step",
+    "Value": "Flow_next_step | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 98
+  },
+  {
+    "Key": "Start_tour_flow_ask_confirmation",
+    "Value": "Start_tour_flow_ask_confirmation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 99
+  },
+  {
+    "Key": "Flow_cannot_edit_tour_departed",
+    "Value": "Flow_cannot_edit_tour_departed | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 100
+  },
+  {
+    "Key": "Rollback_successful",
+    "Value": "Rollback_successful | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 101
+  },
+  {
+    "Key": "Flow_ticket_already_in_other_tour",
+    "Value": "Flow_ticket_already_in_other_tour | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 102
+  },
+  {
+    "Key": "Flow_tour_departed",
+    "Value": "[grey]Deze rondleiding is reeds gestart, wijzigen of annuleren is niet meer mogelijk.[/]",
+    "Locale": "nl-NL",
+    "Id": 103
+  },
+  {
+    "Key": "Kiosk_close_message",
+    "Value": "[grey]<- U gaat terug naar het hoofdmenu.[/]",
+    "Locale": "nl-NL",
+    "Id": 104
+  },
+  {
+    "Key": "Cancellation_flow_title",
+    "Value": "Uw reservering [red]annuleren[/].",
+    "Locale": "nl-NL",
+    "Id": 105
+  },
+  {
+    "Key": "User_has_no_access",
+    "Value": "[grey]Deze gebruiker heeft geen toegang.[/]",
+    "Locale": "nl-NL",
+    "Id": 106
+  },
+  {
+    "Key": "Kiosk_reservation",
+    "Value": "[green]Reserveer[/] een rondleiding",
+    "Locale": "nl-NL",
+    "Id": 107
+  },
+  {
+    "Key": "Flow_no_tours",
+    "Value": "Geen rondleidingen meer beschikbaar vandaag.",
+    "Locale": "nl-NL",
+    "Id": 108
+  },
+  {
+    "Key": "Flow_reservation_people_amount",
+    "Value": "Voor [deeppink1]hoeveel[/] personen wilt u een rondleiding reserveren:",
+    "Locale": "nl-NL",
+    "Id": 109
+  },
+  {
+    "Key": "Flow_reservation_Invalid_people_amount",
+    "Value": "[red]Invoer onjuist.[/]",
+    "Locale": "nl-NL",
+    "Id": 110
+  },
+  {
+    "Key": "Reservation_flow_title",
+    "Value": "Reservation_flow_title | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 111
+  },
+  {
+    "Key": "Reservation_flow_ticket_column",
+    "Value": "Reservation_flow_ticket_column | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 112
+  },
+  {
+    "Key": "Reservation_flow_ask_tour",
+    "Value": "Reservation_flow_ask_tour | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 113
+  },
+  {
+    "Key": "Reservation_flow_more_tours",
+    "Value": "Reservation_flow_more_tours | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 114
+  },
+  {
+    "Key": "Reservation_flow_selected_tour",
+    "Value": "Reservation_flow_selected_tour | nl-NL | {0} = 21:20",
+    "Locale": "nl-NL",
+    "Id": 115
+  },
+  {
+    "Key": "Reservation_flow_ask_confirmation",
+    "Value": "Reservation_flow_ask_confirmation | nl-NL",
+    "Locale": "nl-NL",
+    "Id": 116
+  },
+  {
+    "Key": "Flow_not_group_owner",
+    "Value": "[grey]U bent niet de groepsbeheerder, scan het ticket van de groepsbeheerder.[/]",
+    "Locale": "nl-NL",
+    "Id": 117
+  },
+  {
+    "Key": "Cancellation_flow_selected_tour",
+    "Value": "U heeft nu de rondleiding van [blue]{0}[/] gereserveerd.\n",
+    "Locale": "nl-NL",
+    "Id": 118
+  },
+  {
+    "Key": "Cancellation_flow_ask_confirmation",
+    "Value": "Wilt u uw reservering [red]annuleren[/]?",
+    "Locale": "nl-NL",
+    "Id": 119
   }
 ]

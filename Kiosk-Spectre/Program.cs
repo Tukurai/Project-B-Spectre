@@ -104,6 +104,7 @@ namespace Kiosk_Spectre
 
         public static void TourReservation()
         {
+            var tourService = ServiceProvider.GetService<TourService>();
             var flow = ServiceProvider.GetService<CreateReservationFlow>()!;
 
             // Set ticket into flow
@@ -112,7 +113,7 @@ namespace Kiosk_Spectre
             // Choose a tour
             if (!TourService.GetToursForToday(flow.GroupTickets.Count, 0, -1).Any())
             {
-                CloseMenu(Localization.Get("Reservation_flow_no_tours"), false);
+                CloseMenu(Localization.Get("Flow_no_tours"), false);
                 return;
             }
 
@@ -120,6 +121,12 @@ namespace Kiosk_Spectre
             int maxCapacity = SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value;
             var ticketAmount = Prompts.AskNumber("Flow_reservation_people_amount", "Flow_reservation_Invalid_people_amount", 1, maxCapacity);
             AnsiConsole.Clear();
+
+            if (!TourService.GetToursForToday(ticketAmount).Any())
+            {
+                CloseMenu(Localization.Get("Flow_no_tours"), false);
+                return;
+            }
 
             var table = new Table();
             table.Title(Localization.Get("Reservation_flow_title"));
@@ -172,6 +179,12 @@ namespace Kiosk_Spectre
             if (!Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
             {
                 CloseMenu(Localization.Get("Modification_flow_not_changed"), false);
+                return;
+            }
+
+            if (!TourService.GetToursForToday(flow.Group!.GroupTickets.Count).Any())
+            {
+                CloseMenu(Localization.Get("Flow_no_tours"), false);
                 return;
             }
 
