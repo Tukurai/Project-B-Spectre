@@ -15,7 +15,6 @@ namespace Common.Workflows
     {
         private SettingsService SettingsService { get; }
         private UserService UserService { get; }
-        public List<int> ScannedTickets { get; private set; } = new List<int>();
         public FlowStep Step { get; set; } = FlowStep.ScanRegistration;
         public int GuideId { get; private set; }
 
@@ -35,13 +34,13 @@ namespace Common.Workflows
             if (!Tour!.RegisteredTickets.Contains(ticketNumber) && !extra)
                 return (false, Localization.Get("Flow_ticket_not_in_tour"));
 
-            if (ScannedTickets.Contains(ticketNumber))
+            if (TicketBuffer.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
 
-            if (ScannedTickets.Count >= SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
+            if (TicketBuffer.Count >= SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
                 return (false, Localization.Get("Flow_tour_no_space_for_tickets_in_tour"));
 
-            ScannedTickets.Add(ticketNumber);
+            TicketBuffer.Add(ticketNumber);
 
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
@@ -73,10 +72,10 @@ namespace Common.Workflows
 
         public override (bool Succeeded, string Message) Commit()
         {
-            if (!ScannedTickets.Any())
+            if (!TicketBuffer.Any())
                 return (false, Localization.Get("Flow_no_tickets_scanned"));
 
-            Tour!.RegisteredTickets = ScannedTickets;
+            Tour!.RegisteredTickets = TicketBuffer;
             Tour!.GuideId = GuideId;
             Tour!.Departed = true;
 

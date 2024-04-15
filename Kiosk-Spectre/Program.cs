@@ -17,6 +17,7 @@ namespace Kiosk_Spectre
         public static LocalizationService Localization { get; set; }
         public static TourService TourService { get; set; }
         public static PromptService Prompts { get; set; }
+        public static SettingsService SettingsService { get; set; }
 
         static void Main(string[] args)
         {
@@ -30,15 +31,16 @@ namespace Kiosk_Spectre
                 .AddSingleton<TourService>()
                 .AddSingleton<GroupService>()
                 .AddSingleton<UserService>()
-                .AddScoped<CancelReservationFlow>()
-                .AddScoped<CreateReservationFlow>()
-                .AddScoped<ModifyReservationFlow>()
+                .AddTransient<CancelReservationFlow>()
+                .AddTransient<CreateReservationFlow>()
+                .AddTransient<ModifyReservationFlow>()
                 .BuildServiceProvider();
 
             // Get services
             Localization = ServiceProvider.GetService<LocalizationService>()!;
             Prompts = ServiceProvider.GetService<PromptService>()!;
             TourService = ServiceProvider.GetService<TourService>()!;
+            SettingsService = ServiceProvider.GetService<SettingsService>()!;
             var TicketService = ServiceProvider.GetService<TicketService>()!;
 
             // Setup context
@@ -115,7 +117,8 @@ namespace Kiosk_Spectre
             }
 
             // Ask for the amount of people to make a reservation for
-            var ticketAmount = Prompts.AskTicketAmounts();
+            int maxCapacity = SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value;
+            var ticketAmount = Prompts.AskNumber("Flow_reservation_people_amount", "Flow_reservation_Invalid_people_amount", 1, maxCapacity);
             AnsiConsole.Clear();
 
             var table = new Table();

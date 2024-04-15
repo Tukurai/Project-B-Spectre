@@ -29,9 +29,9 @@ namespace Management_Spectre
                 .AddSingleton<TicketService>()
                 .AddSingleton<TourService>()
                 .AddSingleton<GroupService>()
-                .AddScoped<CancelReservationFlow>()
-                .AddScoped<CreateReservationFlow>()
-                .AddScoped<ModifyReservationFlow>()
+                .AddSingleton<UserService>()
+                .AddTransient<CreateUserFlow>()
+                .AddTransient<CreateTourScheduleFlow>()
                 .BuildServiceProvider();
 
             // Get services
@@ -62,10 +62,116 @@ namespace Management_Spectre
         public static NavigationChoice ManagementMenu()
         {
             var options = new List<NavigationChoice>() {
+                new(Localization.Get("Management_plan_tours_today"), () => { PlanTour(DateTime.Today); }),
+                new(Localization.Get("Management_plan_tours_tomorrow"), () => { PlanTour(DateTime.Today.AddDays(1)); }),
+                new(Localization.Get("Management_plan_tours_in_future"), () => { PlanTour(); }),
+                new(Localization.Get("Management_view_tours"), () => { ViewTours(); }),
+                new(Localization.Get("Management_user_creation"), () => { CloseMenu(); }),
+                new(Localization.Get("Management_view_users"), () => { ViewUsers(); }),
                 new(Localization.Get("Management_close"), () => { CloseMenu(); }),
             };
 
             return Prompts.GetMenu("Management_title", "Management_menu_more_options", options);
+        }
+
+        private static void ViewUsers()
+        {
+            throw new NotImplementedException();
+            CloseMenu(closeMenu: false);
+        }
+
+        private static void ViewTours()
+        {
+            var tourService = ServiceProvider.GetService<TourService>()!;
+
+            var start = Prompts.AskDate("View_tour_start_date", "View_tour_more_dates");
+            var end = Prompts.AskDate("View_tour_end_date", "View_tour_more_dates");
+
+            var currentPlanning = tourService.GetToursForTimespan(start, end);
+
+            var currentPlanningTable = new Table();
+            currentPlanningTable.AddColumn(Localization.Get("View_tour_date_column"));
+            currentPlanningTable.AddColumn(Localization.Get("View_tour_time_column"));
+
+            foreach (var (date, tours) in currentPlanning)
+                currentPlanningTable.AddRow($"[green]{date.ToString("dd/MM/yyyy")}[/]", string.Join(", ", tours.Select(tour => $"[blue]{tour.Start.ToString("hh\\:mm")}[/]")));
+
+            var currentPlanningHeader = new Rule(Localization.Get("View_tour_current_planning"));
+            currentPlanningHeader.Justification = Justify.Left;
+            AnsiConsole.Write(currentPlanningHeader);
+            AnsiConsole.Write(currentPlanningTable);
+
+            AnsiConsole.WriteLine(Localization.Get("View_tour_press_any_key_to_continue"));
+
+            Console.ReadKey();
+
+            CloseMenu(closeMenu: false);
+            return;
+        }
+
+        private static void PlanTour(DateTime? start = null, DateTime? end = null)
+        {
+            var tourService = ServiceProvider.GetService<TourService>()!;
+            var flow = ServiceProvider.GetService<CreateTourScheduleFlow>()!;
+
+            if (!flow.SetDateSpan(start, end).Success)
+            {
+                start = Prompts.AskDate("Create_tour_flow_start_date", "Create_tour_flow_more_dates");
+                end = Prompts.AskDate("Create_tour_flow_end_date", "Create_tour_flow_more_dates");
+
+                flow.SetDateSpan(start, end);
+            }
+
+            var startTime = Prompts.AskTime("Create_tour_flow_start_time", "Create_tour_flow_more_times");
+            var endTime = Prompts.AskTime("Create_tour_flow_end_time", "Create_tour_flow_more_times");
+
+            flow.SetTimeSpan(startTime, endTime);
+
+            var interval = Prompts.AskNumber("Create_tour_flow_interval", "Create_tour_flow_interval_invalid", 1, 60);
+
+            flow.SetInterval(interval);
+
+            var previewChanges = flow.GetPreviewChanges();
+
+            var newPlanning = new Table();
+            newPlanning.AddColumn(Localization.Get("Create_tour_flow_date_column"));
+            newPlanning.AddColumn(Localization.Get("Create_tour_flow_time_column"));
+
+            foreach (var (date, times) in previewChanges)
+                newPlanning.AddRow($"[green]{date.ToString("dd/MM/yyyy")}[/]", string.Join(", ", times.Select(time => $"[blue]{time.ToString("hh\\:mm")}[/]")));
+
+            var newPlanningHeader = new Rule(Localization.Get("Create_tour_flow_new_planning"));
+            newPlanningHeader.Justification = Justify.Left;
+            AnsiConsole.Write(newPlanningHeader);
+            AnsiConsole.Write(newPlanning);
+
+            var currentPlanning = tourService.GetToursForTimespan(flow.StartDate, flow.EndDate);
+
+            var oldPlanning = new Table();
+            oldPlanning.AddColumn(Localization.Get("Create_tour_flow_date_column"));
+            oldPlanning.AddColumn(Localization.Get("Create_tour_flow_time_column"));
+
+            foreach (var (date, tours) in currentPlanning)
+                oldPlanning.AddRow($"[green]{date.ToString("dd/MM/yyyy")}[/]", string.Join(", ", tours.Select(tour => $"[blue]{tour.Start.ToString("hh\\:mm")}[/]")));
+
+            var oldPlanningHeader = new Rule(Localization.Get("Create_tour_flow_old_planning"));
+            oldPlanningHeader.Justification = Justify.Left;
+            AnsiConsole.Write(oldPlanningHeader);
+            AnsiConsole.Write(oldPlanning);
+
+            if (currentPlanning.Any() && Prompts.AskConfirmation("Create_tour_flow_overwrite_current_confirmation"))
+                flow.DisposePlanning(currentPlanning);
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Create_tour_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message, false);
+                return;
+            }
+
+            flow.Rollback();
+            CloseMenu(closeMenu: false);
         }
 
         public static NavigationChoice TourMenu(Tour tour)

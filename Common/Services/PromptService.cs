@@ -30,21 +30,19 @@ namespace Common.Services
             Settings = settings;
         }
 
-        public int AskTicketAmounts()
+        public int AskNumber(string questionKey, string validationErrorKey,int? min = null, int? max = null)
         {
             return AnsiConsole.Prompt(
-                new TextPrompt<int>(Localization.Get("Flow_reservation_people_amount"))
+                new TextPrompt<int>(Localization.Get(questionKey))
                     .PromptStyle("green")
-                    .ValidationErrorMessage(Localization.Get("Flow_reservation_Invalid_people_amount")) // "[red]That's not a valid age[/]"
-                    .Validate(peopleAmountInput =>
+                    .ValidationErrorMessage(Localization.Get(validationErrorKey))
+                    .Validate(inputNumber =>
                     {
-                        int maxCapacity = Settings.GetValueAsInt("Max_capacity_per_tour")!.Value;
+                        if (min != null && inputNumber < min)
+                            return ValidationResult.Error(Localization.Get("Input_below_minimum"));
 
-                        if (peopleAmountInput <= 0)
-                            return ValidationResult.Error(Localization.Get("Flow_reservation_Input_below_minimum"));
-
-                        if (peopleAmountInput > maxCapacity)
-                            return ValidationResult.Error(Localization.Get("Flow_reservation_Input_exceeds_capacity"));
+                        if (max != null && inputNumber > max)
+                            return ValidationResult.Error(Localization.Get("Input_exceeds_capacity"));
 
                         return ValidationResult.Success();
                     }));
@@ -98,6 +96,43 @@ namespace Common.Services
                         return response.Valid ? ValidationResult.Success()
                             : ValidationResult.Error(response.Message);
                     }));
+        }
+
+        public DateTime AskDate(string titleTranslationKey, string moreOptionsTranslationKey, int dateRange = 31)
+        {
+            var start = DateTime.Today.Date;
+            var dateChoices = Enumerable.Range(0, dateRange).Select(offset => new DateChoice(start.AddDays(offset)));
+
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<DateChoice>()
+                    .Title(Localization.Get(titleTranslationKey))
+                    .PageSize(10)
+                    .MoreChoicesText(Localization.Get(moreOptionsTranslationKey))
+                    .AddChoices(dateChoices));
+
+            return choice.Date;
+        }
+
+
+        public TimeSpan AskTime(string titleTranslationKey, string moreOptionsTranslationKey, int timeInterval = 30)
+        {
+            var minutes = 0;
+            var timeChoices = new List<TimeChoice>();
+            while (minutes < 1440)
+            {
+                minutes = Math.Min(1440, minutes);
+                timeChoices.Add(new TimeChoice(new TimeSpan(0, minutes, 0)));
+                minutes += timeInterval;
+            }
+
+            var choice = AnsiConsole.Prompt(
+                new SelectionPrompt<TimeChoice>()
+                    .Title(Localization.Get(titleTranslationKey))
+                    .PageSize(10)
+                    .MoreChoicesText(Localization.Get(moreOptionsTranslationKey))
+                    .AddChoices(timeChoices));
+
+            return choice.Span;
         }
 
         public NavigationChoice GetMenu(string titleTranslationKey, string moreOptionsTranslationKey, List<NavigationChoice> navigationChoices)

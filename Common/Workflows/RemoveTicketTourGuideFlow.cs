@@ -12,7 +12,6 @@ namespace Common.Workflows
 {
     public class RemoveTicketTourGuideFlow: TourGuideFlow
     {
-        public List<int> TicketsToRemove { get; private set; } = new List<int>();
 
         public RemoveTicketTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService) 
             : base(context, localizationService, ticketService, tourService)
@@ -28,10 +27,10 @@ namespace Common.Workflows
             if(!Tour!.RegisteredTickets.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_not_in_tour"));
 
-            if (TicketsToRemove.Contains(ticketNumber))
+            if (TicketBuffer.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
 
-            TicketsToRemove.Add(ticketNumber);
+            TicketBuffer.Add(ticketNumber);
 
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
@@ -50,12 +49,19 @@ namespace Common.Workflows
 
         public override (bool Succeeded, string Message) Commit()
         {
-            if (!TicketsToRemove.Any())
+            if (!TicketBuffer.Any())
                 return (false, Localization.Get("Flow_no_tickets_to_remove"));
 
-            TicketsToRemove.ForEach(t => Tour!.RegisteredTickets.Remove(t));
+            TicketBuffer.ForEach(t => Tour!.RegisteredTickets.Remove(t));
 
             return base.Commit();
+        }
+
+        public override (bool Succeeded, string Message) Rollback()
+        {
+            TicketBuffer.Clear();
+
+            return base.Rollback();
         }
     }
 }

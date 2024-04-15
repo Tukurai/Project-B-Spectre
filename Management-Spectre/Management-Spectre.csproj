@@ -6,6 +6,7 @@
     <RootNamespace>Management_Spectre</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <BaseOutputPath>..\bin</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,5 +2,9 @@
   {
     "Key": "Max_capacity_per_tour",
     "Value": "13"
+  },
+  {
+    "Key": "Tour_duration",
+    "Value": "40"
   }
 ]

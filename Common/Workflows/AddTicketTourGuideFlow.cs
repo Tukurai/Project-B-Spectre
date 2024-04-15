@@ -13,7 +13,6 @@ namespace Common.Workflows
 {
     public class AddTicketTourGuideFlow : TourGuideFlow
     {
-        public List<int> TicketsToAdd { get; private set; } = new List<int>();
         private SettingsService SettingsService { get; }
 
         public AddTicketTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService, SettingsService settingsService) 
@@ -34,10 +33,10 @@ namespace Common.Workflows
             if (TourService.GetTourForTicket(ticketNumber) != null)
                 return (false, Localization.Get("Flow_ticket_already_in_other_tour"));
 
-            if (TicketsToAdd.Contains(ticketNumber))
+            if (TicketBuffer.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
 
-            TicketsToAdd.Add(ticketNumber);
+            TicketBuffer.Add(ticketNumber);
 
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
@@ -58,10 +57,10 @@ namespace Common.Workflows
 
         public override (bool Succeeded, string Message) Commit()
         {
-            if (!TicketsToAdd.Any())
+            if (!TicketBuffer.Any())
                 return (false, Localization.Get("Flow_no_tickets_to_add"));
 
-            TicketsToAdd.ForEach(t => Tour!.RegisteredTickets.Add(t));
+            TicketBuffer.ForEach(t => Tour!.RegisteredTickets.Add(t));
 
             return base.Commit();
         }

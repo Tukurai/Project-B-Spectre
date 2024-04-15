@@ -13,6 +13,7 @@ namespace Common.Workflows
     {
         public TourService TourService { get; set; }
         public Tour? Tour { get; private set; }
+        public List<int> TicketBuffer { get; private set; } = new List<int>();
 
         public TourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService) 
             : base(context, localizationService, ticketService)
@@ -31,6 +32,20 @@ namespace Common.Workflows
             Tour = tour;
 
             return (true, Localization.Get("flow_tour_is_valid"));
+        }
+
+        public override (bool Succeeded, string Message) Commit()
+        {
+            TicketBuffer = new List<int>(); // Clear buffer
+
+            return base.Commit();
+        }
+
+        public override (bool Succeeded, string Message) Rollback()
+        {
+            TicketBuffer.Clear();
+
+            return base.Rollback();
         }
     }
 }

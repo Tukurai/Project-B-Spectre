@@ -12,8 +12,6 @@ namespace Common.Workflows
 {
     public class Workflow
     {
-        private readonly IDbContextTransaction _transaction;
-
         public LocalizationService Localization { get; }
         public DepotContext Context { get; }
         public TicketService TicketService { get; }
