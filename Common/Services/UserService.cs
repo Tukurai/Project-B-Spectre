@@ -48,5 +48,10 @@ namespace Common.Services
         {
             return [.. Context.Users];
         }
+
+        internal void AddUser(User user)
+        {
+            Context.Users.Add(user);
+        }
     }
 }

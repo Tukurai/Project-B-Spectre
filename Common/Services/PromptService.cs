@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Enums;
 
 namespace Common.Services
 {
@@ -30,7 +31,7 @@ namespace Common.Services
             Settings = settings;
         }
 
-        public int AskNumber(string questionKey, string validationErrorKey,int? min = null, int? max = null)
+        public int AskNumber(string questionKey, string validationErrorKey, int? min = null, int? max = null)
         {
             return AnsiConsole.Prompt(
                 new TextPrompt<int>(Localization.Get(questionKey))
@@ -164,15 +165,35 @@ namespace Common.Services
 
         public bool AskConfirmation(string titleTranslationKey)
         {
-             var choice = AnsiConsole.Prompt(
-                new SelectionPrompt<BoolChoice>()
-                    .Title(Localization.Get(titleTranslationKey))
-                    .PageSize(10)
-                    .AddChoices(new List<BoolChoice>() { 
+            var choice = AnsiConsole.Prompt(
+               new SelectionPrompt<BoolChoice>()
+                   .Title(Localization.Get(titleTranslationKey))
+                   .PageSize(10)
+                   .AddChoices(new List<BoolChoice>() {
                         new(Localization.Get("Choice_yes"), true),
                         new(Localization.Get("Choice_no"), false)
-                    }));
+                   }));
             return choice.Choice;
+        }
+
+        public string AskUsername()
+        {
+            return AnsiConsole.Prompt(
+                new TextPrompt<string>(Localization.Get("Ask_username"))
+                    .PromptStyle("green")
+                    .ValidationErrorMessage(Localization.Get("Invalid_username"))
+                    .Validate(username =>{
+                        return ValidationResult.Success();
+                    }));
+        }
+
+        public Role AskRole()
+        {
+            return AnsiConsole.Prompt(
+                new SelectionPrompt<Role>()
+                    .Title(Localization.Get("Ask_role"))
+                    .PageSize(10)
+                    .AddChoices(Role.Guide, Role.Manager));
         }
     }
 }

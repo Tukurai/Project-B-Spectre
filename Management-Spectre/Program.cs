@@ -111,7 +111,21 @@ namespace Management_Spectre
 
         private static void CreateUser()
         {
-            throw new NotImplementedException();
+            var flow = ServiceProvider.GetService<CreateUserFlow>()!;
+
+            flow.SetUsername(Prompts.AskUsername());
+            flow.SetRole(Prompts.AskRole());
+
+            // Commit the flow.
+            if (Prompts.AskConfirmation("Create_user_flow_ask_confirmation"))
+            {
+                var commitResult = flow.Commit();
+                CloseMenu(commitResult.Message, false);
+                return;
+            }
+
+            flow.Rollback();
+            CloseMenu(closeMenu: false);
         }
 
         private static void ViewTours()
