@@ -133,7 +133,7 @@ namespace Management_Spectre
             var tourService = ServiceProvider.GetService<TourService>()!;
 
             var start = Prompts.AskDate("View_tour_start_date", "View_tour_more_dates");
-            var end = Prompts.AskDate("View_tour_end_date", "View_tour_more_dates");
+            var end = Prompts.AskDate("Create_tour_flow_end_date", "Create_tour_flow_more_dates", startDate: start);
 
             var currentPlanning = tourService.GetToursForTimespan(start, end);
 
@@ -165,13 +165,13 @@ namespace Management_Spectre
             if (!flow.SetDateSpan(start, end).Success)
             {
                 start = Prompts.AskDate("Create_tour_flow_start_date", "Create_tour_flow_more_dates");
-                end = Prompts.AskDate("Create_tour_flow_end_date", "Create_tour_flow_more_dates");
+                end = Prompts.AskDate("Create_tour_flow_end_date", "Create_tour_flow_more_dates", startDate: start);
 
                 flow.SetDateSpan(start, end);
             }
 
             var startTime = Prompts.AskTime("Create_tour_flow_start_time", "Create_tour_flow_more_times");
-            var endTime = Prompts.AskTime("Create_tour_flow_end_time", "Create_tour_flow_more_times");
+            var endTime = Prompts.AskTime("Create_tour_flow_end_time", "Create_tour_flow_more_times", startTime: startTime.Minutes);
 
             flow.SetTimeSpan(startTime, endTime);
 

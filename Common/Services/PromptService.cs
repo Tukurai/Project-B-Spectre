@@ -99,9 +99,9 @@ namespace Common.Services
                     }));
         }
 
-        public DateTime AskDate(string titleTranslationKey, string moreOptionsTranslationKey, int dateRange = 31)
+        public DateTime AskDate(string titleTranslationKey, string moreOptionsTranslationKey, int dateRange = 31, DateTime? startDate = null)
         {
-            var start = DateTime.Today.Date;
+            var start = startDate ?? DateTime.Today.Date;
             var dateChoices = Enumerable.Range(0, dateRange).Select(offset => new DateChoice(start.AddDays(offset)));
 
             var choice = AnsiConsole.Prompt(
@@ -115,9 +115,9 @@ namespace Common.Services
         }
 
 
-        public TimeSpan AskTime(string titleTranslationKey, string moreOptionsTranslationKey, int timeInterval = 30)
+        public TimeSpan AskTime(string titleTranslationKey, string moreOptionsTranslationKey, int timeInterval = 30, int startTime = 0)
         {
-            var minutes = 0;
+            var minutes = startTime;
             var timeChoices = new List<TimeChoice>();
             while (minutes < 1440)
             {
