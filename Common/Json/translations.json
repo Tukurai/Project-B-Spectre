@@ -37,7 +37,7 @@
   },
   {
     "Key": "Kiosk_title",
-    "Value": "Welkom bij het Depot!\nHier kunt u uw rondleiding [green]plannen[/] en [red]wijzigen[/].",
+    "Value": "Welkom bij het [darkorange]Depot[/]!\nHier kunt u uw rondleiding [green]plannen[/] en [red]wijzigen[/].",
     "Locale": "nl-NL",
     "Id": 7
   },
@@ -133,25 +133,25 @@
   },
   {
     "Key": "Tour_not_departed",
-    "Value": "Open",
+    "Value": "[green]open[/]",
     "Locale": "nl-NL",
     "Id": 23
   },
   {
     "Key": "Guide_tour_navigation_name",
-    "Value": "Tour van {0}, {1}, {2} aanmeldingen",
+    "Value": "Rondleiding van {0}, {1}, {2} aanmeldingen",
     "Locale": "nl-NL",
     "Id": 24
   },
   {
     "Key": "Guide_close",
-    "Value": "Guide_close | nl-NL",
+    "Value": "Ga terug",
     "Locale": "nl-NL",
     "Id": 25
   },
   {
     "Key": "Guide_title",
-    "Value": "Guide_title | nl-NL",
+    "Value": "Welkom bij het gidsmenu, [darkorange]{1}[/] {0}.",
     "Locale": "nl-NL",
     "Id": 26
   },
@@ -163,7 +163,7 @@
   },
   {
     "Key": "Tour_departed",
-    "Value": "Gesloten",
+    "Value": "[red]vertrokken[/]",
     "Locale": "nl-NL",
     "Id": 28
   },
@@ -415,199 +415,199 @@
   },
   {
     "Key": "Guide_view_tour_title",
-    "Value": "Guide_view_tour_title | nl-NL",
+    "Value": "[darkorange]Rondleiding[/] overzicht",
     "Locale": "nl-NL",
     "Id": 70
   },
   {
     "Key": "Guide_view_tour_description",
-    "Value": "Guide_view_tour_description | nl-NL | {0} = 15:20 | {1} = Open | {2} = (0/13)",
+    "Value": "U bekijkt de rondleiding van [blue]{0}[/]. Deze is {1}. De bezetting is {2}.\n",
     "Locale": "nl-NL",
     "Id": 71
   },
   {
     "Key": "Guide_view_tour_tickets",
-    "Value": "Guide_view_tour_tickets | nl-NL",
+    "Value": "[lightsteelblue1]Alle ticketnummers bij deze rondleiding[/]",
     "Locale": "nl-NL",
     "Id": 72
   },
   {
     "Key": "Guide_view_tour_no_tickets",
-    "Value": "Guide_view_tour_no_tickets | nl-NL",
+    "Value": "[grey]Geen reserveringen voor deze rondleiding[/]",
     "Locale": "nl-NL",
     "Id": 73
   },
   {
     "Key": "Guide_start_tour",
-    "Value": "Guide_start_tour | nl-NL",
+    "Value": "Rondleiding [green]starten[/]",
     "Locale": "nl-NL",
     "Id": 74
   },
   {
     "Key": "Guide_add_ticket",
-    "Value": "Guide_add_ticket | nl-NL",
+    "Value": "Bezoeker [green]toevoegen[/]",
     "Locale": "nl-NL",
     "Id": 75
   },
   {
     "Key": "Guide_remove_ticket",
-    "Value": "Guide_remove_ticket | nl-NL",
+    "Value": "Bezoeker [red]verwijderen[/]",
     "Locale": "nl-NL",
     "Id": 76
   },
   {
     "Key": "flow_tour_is_valid",
-    "Value": "flow_tour_is_valid | nl-NL",
+    "Value": "[green]Rondleiding is valide.[/]",
     "Locale": "nl-NL",
     "Id": 77
   },
   {
     "Key": "Add_ticket_flow_title",
-    "Value": "Add_ticket_flow_title | nl-NL",
+    "Value": "Bezoeker [green]toevoegen[/]",
     "Locale": "nl-NL",
     "Id": 78
   },
   {
     "Key": "Add_ticket_flow_ticket_current_column",
-    "Value": "Add_ticket_flow_ticket_current_column | nl-NL",
+    "Value": "[lightsteelblue1]Huidige aanmeldingen[/]",
     "Locale": "nl-NL",
     "Id": 79
   },
   {
     "Key": "Add_ticket_flow_ticket_add_column",
-    "Value": "Add_ticket_flow_ticket_add_column | nl-NL",
+    "Value": "[lightsteelblue1]Nieuwe aanmeldingen[/]",
     "Locale": "nl-NL",
     "Id": 80
   },
   {
     "Key": "Flow_ticket_added_to_list",
-    "Value": "Flow_ticket_added_to_list | nl-NL",
+    "Value": "Ticket [green]toegevoegd[/] aan de lijst.",
     "Locale": "nl-NL",
     "Id": 81
   },
   {
     "Key": "Add_ticket_flow_ask_more_tickets",
-    "Value": "Add_ticket_flow_ask_more_tickets | nl-NL",
+    "Value": "Wilt u nog een ticket [green]toevoegen[/]?",
     "Locale": "nl-NL",
     "Id": 82
   },
   {
     "Key": "Add_ticket_flow_ask_confirmation",
-    "Value": "Add_ticket_flow_ask_confirmation | nl-NL",
+    "Value": "Wilt u de lijst aan de rondleiding toevoegen?",
     "Locale": "nl-NL",
     "Id": 83
   },
   {
     "Key": "Guide_close_message",
-    "Value": "Guide_close_message | nl-NL",
+    "Value": "[grey]<- U gaat terug naar het hoofdmenu.[/]",
     "Locale": "nl-NL",
     "Id": 84
   },
   {
     "Key": "Flow_ticket_already_in_tour",
-    "Value": "Flow_ticket_already_in_tour | nl-NL",
+    "Value": "[red]Ticket reeds toegevoegd aan rondleiding.[/]",
     "Locale": "nl-NL",
     "Id": 85
   },
   {
     "Key": "Remove_ticket_flow_title",
-    "Value": "Remove_ticket_flow_title | nl-NL",
+    "Value": "Bezoeker [red]verwijderen[/]",
     "Locale": "nl-NL",
     "Id": 86
   },
   {
     "Key": "Remove_ticket_flow_current_column",
-    "Value": "Remove_ticket_flow_current_column | nl-NL",
+    "Value": "[lightsteelblue1]Huidige aanmeldingen[/]",
     "Locale": "nl-NL",
     "Id": 87
   },
   {
     "Key": "Remove_ticket_flow_ticket_remove_column",
-    "Value": "Remove_ticket_flow_ticket_remove_column | nl-NL",
+    "Value": "[lightsteelblue1]Te verwijderen[/]",
     "Locale": "nl-NL",
     "Id": 88
   },
   {
     "Key": "Remove_ticket_flow_ask_more_tickets",
-    "Value": "Remove_ticket_flow_ask_more_tickets | nl-NL",
+    "Value": "Wilt u nog een ticket [red]verwijderen[/]?",
     "Locale": "nl-NL",
     "Id": 89
   },
   {
     "Key": "Remove_ticket_flow_ask_confirmation",
-    "Value": "Remove_ticket_flow_ask_confirmation | nl-NL",
+    "Value": "Wilt u de lijst uit de rondleiding verwijderen?",
     "Locale": "nl-NL",
     "Id": 90
   },
   {
     "Key": "Start_tour_flow_title",
-    "Value": "Start_tour_flow_title | nl-NL",
+    "Value": "Rondleiding [green]starten[/].",
     "Locale": "nl-NL",
     "Id": 91
   },
   {
     "Key": "Start_tour_flow_ticket_todo_column",
-    "Value": "Start_tour_flow_ticket_todo_column | nl-NL",
+    "Value": "[lightsteelblue1]Te scannen tickets[/]",
     "Locale": "nl-NL",
     "Id": 92
   },
   {
     "Key": "Start_tour_flow_ticket_done_column",
-    "Value": "Start_tour_flow_ticket_done_column | nl-NL",
+    "Value": "[lightsteelblue1]Gescande tickets[/]",
     "Locale": "nl-NL",
     "Id": 93
   },
   {
     "Key": "Scan_ticket_or_userpass",
-    "Value": "Scan_ticket_or_userpass | nl-NL",
+    "Value": "Scan [darkorange]bezoekersticket[/] of [darkorange]pas[/]:",
     "Locale": "nl-NL",
     "Id": 94
   },
   {
     "Key": "Invalid_ticket_number_or_userpass",
-    "Value": "Invalid_ticket_number_or_userpass | nl-NL",
+    "Value": "[red]Ongeldige invoer.[/]",
     "Locale": "nl-NL",
     "Id": 95
   },
   {
     "Key": "User_does_not_exist",
-    "Value": "User_does_not_exist | nl-NL",
+    "Value": "[red]Gebruiker bestaat niet.[/]",
     "Locale": "nl-NL",
     "Id": 96
   },
   {
     "Key": "Start_tour_flow_scan_extra",
-    "Value": "Start_tour_flow_scan_extra | nl-NL",
+    "Value": "Scan nu [underline green]extra tickets[/]",
     "Locale": "nl-NL",
     "Id": 97
   },
   {
     "Key": "Flow_next_step",
-    "Value": "Flow_next_step | nl-NL",
+    "Value": "Volgende stap",
     "Locale": "nl-NL",
     "Id": 98
   },
   {
     "Key": "Start_tour_flow_ask_confirmation",
-    "Value": "Start_tour_flow_ask_confirmation | nl-NL",
+    "Value": "Wilt u de rondleiding nu starten?",
     "Locale": "nl-NL",
     "Id": 99
   },
   {
     "Key": "Flow_cannot_edit_tour_departed",
-    "Value": "Flow_cannot_edit_tour_departed | nl-NL",
+    "Value": "[grey]Rondleiding is reeds vertrokken.[/]",
     "Locale": "nl-NL",
     "Id": 100
   },
   {
     "Key": "Rollback_successful",
-    "Value": "Rollback_successful | nl-NL",
+    "Value": "[green]Wijzigingen ongedaan gemaakt.[/]",
     "Locale": "nl-NL",
     "Id": 101
   },
   {
     "Key": "Flow_ticket_already_in_other_tour",
-    "Value": "Flow_ticket_already_in_other_tour | nl-NL",
+    "Value": "[red]Dit ticket is al in gebruik bij een andere rondleiding.[/]",
     "Locale": "nl-NL",
     "Id": 102
   },
@@ -655,25 +655,25 @@
   },
   {
     "Key": "Flow_reservation_Invalid_people_amount",
-    "Value": "[red]Invoer onjuist.[/]",
+    "Value": "[red]Ongeldige invoer[/]",
     "Locale": "nl-NL",
     "Id": 110
   },
   {
     "Key": "Reservation_flow_title",
-    "Value": "Reservation_flow_title | nl-NL",
+    "Value": "[darkorange]Rondleiding reserveren[/]",
     "Locale": "nl-NL",
     "Id": 111
   },
   {
     "Key": "Reservation_flow_ticket_column",
-    "Value": "Reservation_flow_ticket_column | nl-NL",
+    "Value": "[lightsteelblue1]Reeds gescande tickets[/]",
     "Locale": "nl-NL",
     "Id": 112
   },
   {
     "Key": "Reservation_flow_ask_tour",
-    "Value": "Reservation_flow_ask_tour | nl-NL",
+    "Value": "Welke [darkorange]rondleiding[/] wilt u reserveren:",
     "Locale": "nl-NL",
     "Id": 113
   },
@@ -685,13 +685,13 @@
   },
   {
     "Key": "Reservation_flow_selected_tour",
-    "Value": "Reservation_flow_selected_tour | nl-NL | {0} = 21:20",
+    "Value": "U heeft de rondleiding van [blue]{0}[/] gekozen.",
     "Locale": "nl-NL",
     "Id": 115
   },
   {
     "Key": "Reservation_flow_ask_confirmation",
-    "Value": "Reservation_flow_ask_confirmation | nl-NL",
+    "Value": "Wilt u deze [green]reserveren[/]?",
     "Locale": "nl-NL",
     "Id": 116
   },
@@ -712,5 +712,65 @@
     "Value": "Wilt u uw reservering [red]annuleren[/]?",
     "Locale": "nl-NL",
     "Id": 119
+  },
+  {
+    "Key": "Guide",
+    "Value": "Gids",
+    "Locale": "nl-NL",
+    "Id": 120
+  },
+  {
+    "Key": "Manager",
+    "Value": "Beheerder",
+    "Locale": "nl-NL",
+    "Id": 121
+  },
+  {
+    "Key": "Input_exceeds_capacity",
+    "Value": "[red]Ongeldige invoer[/]",
+    "Locale": "nl-NL",
+    "Id": 122
+  },
+  {
+    "Key": "Select_tour_item",
+    "Value": "Rondleiding van {0}, [green]{1}[/]",
+    "Locale": "nl-NL",
+    "Id": 123
+  },
+  {
+    "Key": "Input_below_minimum",
+    "Value": "[red]Ongeldige invoer[/]",
+    "Locale": "nl-NL",
+    "Id": 124
+  },
+  {
+    "Key": "Modification_flow_not_changed",
+    "Value": "Uw rondleiding is [red]niet[/] gewijzigd.",
+    "Locale": "nl-NL",
+    "Id": 125
+  },
+  {
+    "Key": "Flow_same_tour",
+    "Value": "[grey]U heeft dezelfde rondleiding gekozen.[/]",
+    "Locale": "nl-NL",
+    "Id": 126
+  },
+  {
+    "Key": "Guide_submenu_title",
+    "Value": "Wat wilt u doen met deze rondleiding?",
+    "Locale": "nl-NL",
+    "Id": 127
+  },
+  {
+    "Key": "Flow_ticket_not_in_tour",
+    "Value": "[grey]Dit ticket heeft geen reservering op deze rondleiding.\nVoeg deze toe als extra ticket achteraf.[/]",
+    "Locale": "nl-NL",
+    "Id": 128
+  },
+  {
+    "Key": "Flow_ticket_already_added_to_list",
+    "Value": "[grey]Dit ticket staat al op de lijst.[/]",
+    "Locale": "nl-NL",
+    "Id": 129
   }
 ]

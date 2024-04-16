@@ -46,6 +46,9 @@ namespace Common.Services
                 }
             }
 
+            if (stringValue.Contains(locale))
+                stringValue = $"Id: {translation.Id} | {stringValue}"; 
+
             return stringValue;
         }
 

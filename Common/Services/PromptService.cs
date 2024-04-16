@@ -136,11 +136,15 @@ namespace Common.Services
             return choice.Span;
         }
 
-        public NavigationChoice GetMenu(string titleTranslationKey, string moreOptionsTranslationKey, List<NavigationChoice> navigationChoices)
+        public NavigationChoice GetMenu(string titleTranslationKey, string moreOptionsTranslationKey, List<NavigationChoice> navigationChoices, User? user = null)
         {
+            var replacementList = new List<string>();
+            if (user != null)
+                replacementList = new() { user.Name, Localization.Get(((Role)user.Role).ToString()) };
+
             return AnsiConsole.Prompt(
                 new SelectionPrompt<NavigationChoice>()
-                    .Title(Localization.Get(titleTranslationKey))
+                    .Title(Localization.Get(titleTranslationKey, replacementStrings: replacementList))
                     .PageSize(10)
                     .MoreChoicesText(Localization.Get(moreOptionsTranslationKey))
                     .AddChoices(navigationChoices));
@@ -151,7 +155,7 @@ namespace Common.Services
             int maxCapacity = Settings.GetValueAsInt("Max_capacity_per_tour")!.Value;
 
             var tourChoices = TourService.GetToursForToday(minimumCapacity, recentTours, upcomingTours)
-                .Select(tour => new TourChoice($"{tour.Start.ToShortTimeString()}, ({tour.RegisteredTickets.Count}/{maxCapacity})", tour));
+                .Select(tour => new TourChoice(Localization.Get("Select_tour_item", replacementStrings: new() { tour.Start.ToString("HH:mm"), $"({tour.RegisteredTickets.Count}/{maxCapacity})[/]" }), tour));
 
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<TourChoice>()

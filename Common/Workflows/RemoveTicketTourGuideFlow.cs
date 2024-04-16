@@ -52,6 +52,7 @@ namespace Common.Workflows
             if (!TicketBuffer.Any())
                 return (false, Localization.Get("Flow_no_tickets_to_remove"));
 
+            // TODO: Take groups into account.
             TicketBuffer.ForEach(t => Tour!.RegisteredTickets.Remove(t));
 
             return base.Commit();

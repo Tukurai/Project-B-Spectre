@@ -47,6 +47,7 @@ namespace Management_Spectre
             {
                 var userpass = Prompts.AskUserpass();
                 var hasAccess = userService.ValidateUserForRole(userpass, Role.Manager);
+                User = userService.GetUser(userpass)!;
                 AnsiConsole.Clear(); // Clear the console after the ticket has been scanned
 
                 if (hasAccess.Valid)
@@ -71,7 +72,7 @@ namespace Management_Spectre
                 new(Localization.Get("Management_close"), () => { CloseMenu(); }),
             };
 
-            return Prompts.GetMenu("Management_title", "Management_menu_more_options", options);
+            return Prompts.GetMenu("Management_title", "Management_menu_more_options", options, User);
         }
 
         private static void ViewUsers()
@@ -228,7 +229,7 @@ namespace Management_Spectre
                 new(Localization.Get("Management_close"), () => { CloseMenu(); }),
             };
 
-            return Prompts.GetMenu("Management_title", "Management_menu_more_options", options);
+            return Prompts.GetMenu("Management_title", "Management_menu_more_options", options, User);
         }
 
 

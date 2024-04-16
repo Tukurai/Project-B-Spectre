@@ -117,22 +117,22 @@ namespace Kiosk_Spectre
                 return;
             }
 
-            // Ask for the amount of people to make a reservation for
             int maxCapacity = SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value;
-            var ticketAmount = Prompts.AskNumber("Flow_reservation_people_amount", "Flow_reservation_Invalid_people_amount", 1, maxCapacity);
-            AnsiConsole.Clear();
-
-            if (!TourService.GetToursForToday(ticketAmount).Any())
-            {
-                CloseMenu(Localization.Get("Flow_no_tours"), false);
-                return;
-            }
 
             var table = new Table();
             table.Title(Localization.Get("Reservation_flow_title"));
             table.AddColumn(Localization.Get("Reservation_flow_ticket_column"));
             table.AddRow($"# [green]{flow.GroupTickets.Last().Id}[/]");
             AnsiConsole.Write(table);
+
+            // Ask for the amount of people to make a reservation for
+            var ticketAmount = Prompts.AskNumber("Flow_reservation_people_amount", "Flow_reservation_Invalid_people_amount", 1, maxCapacity);
+
+            if (!TourService.GetToursForToday(ticketAmount).Any())
+            {
+                CloseMenu(Localization.Get("Flow_no_tours"), false);
+                return;
+            }
 
             // Ask for additional tickets if there are more than 1 people in this group
             while (flow.GroupTickets.Count() < ticketAmount)
@@ -148,18 +148,21 @@ namespace Kiosk_Spectre
                 AnsiConsole.Clear();
 
                 AnsiConsole.Write(table);
+                AnsiConsole.MarkupLine($"{Localization.Get("Flow_reservation_people_amount")} [green]{ticketAmount}[/]");
             }
 
             var tour = Prompts.AskTour("Reservation_flow_ask_tour", "Reservation_flow_more_tours", ticketAmount);
             flow.SetTour(tour);
-            AnsiConsole.MarkupLine(Localization.Get("Reservation_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
+            AnsiConsole.MarkupLine(Localization.Get("Reservation_flow_selected_tour", replacementStrings: new() { $"{tour.Start.ToString("HH:mm")}" }));
 
             // Commit the flow.
             if (Prompts.AskConfirmation("Reservation_flow_ask_confirmation"))
             {
                 var commitResult = flow.Commit();
                 CloseMenu(commitResult.Message);
+                return;
             }
+            CloseMenu();
         }
 
         public static void TourModification()
@@ -174,7 +177,7 @@ namespace Kiosk_Spectre
                 return;
             }
 
-            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_tour", replacementStrings: new() { $"{flow.Tour!.Start.ToShortTimeString()}" }));
+            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_tour", replacementStrings: new() { $"{flow.Tour!.Start.ToString("HH:mm")}" }));
 
             if (!Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
             {
@@ -198,17 +201,16 @@ namespace Kiosk_Spectre
                 return;
             }
 
-            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_new_tour", replacementStrings: new() { $"{tour.Start.ToShortTimeString()}" }));
+            AnsiConsole.MarkupLine(Localization.Get("Modification_flow_selected_new_tour", replacementStrings: new() { $"{tour.Start.ToString("HH:mm")}" }));
 
             // Commit the flow.
             if (Prompts.AskConfirmation("Modification_flow_ask_confirmation"))
             {
                 var commitResult = flow.Commit();
-                AnsiConsole.MarkupLine(commitResult.Message);
-                // We don't close the menu here, as the user might want to make more changes, or cancel after all.
-                Thread.Sleep(2000);
-                AnsiConsole.Clear();
+                CloseMenu(commitResult.Message, false);
+                return;
             }
+            CloseMenu();
         }
 
         public static void TourCancellation()
@@ -223,13 +225,15 @@ namespace Kiosk_Spectre
                 return;
             }
 
-            AnsiConsole.MarkupLine(Localization.Get("Cancellation_flow_selected_tour", replacementStrings: new() { $"{flow.Tour!.Start.ToShortTimeString()}" }));
+            AnsiConsole.MarkupLine(Localization.Get("Cancellation_flow_selected_tour", replacementStrings: new() { $"{flow.Tour!.Start.ToString("HH:mm")}" }));
 
             if (Prompts.AskConfirmation("Cancellation_flow_ask_confirmation"))
             {
                 var commitResult = flow.Commit();
                 CloseMenu(commitResult.Message);
+                return;
             }
+            CloseMenu();
         }
     }
 }

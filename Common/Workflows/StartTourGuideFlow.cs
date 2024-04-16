@@ -18,7 +18,7 @@ namespace Common.Workflows
         public FlowStep Step { get; set; } = FlowStep.ScanRegistration;
         public int GuideId { get; private set; }
 
-        public StartTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService, SettingsService settingsService, UserService userService) 
+        public StartTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService, SettingsService settingsService, UserService userService)
             : base(context, localizationService, ticketService, tourService)
         {
             SettingsService = settingsService;
@@ -32,7 +32,7 @@ namespace Common.Workflows
                 return validation;
 
             if (!Tour!.RegisteredTickets.Contains(ticketNumber) && !extra)
-                return (false, Localization.Get("Flow_ticket_not_in_tour"));
+                    return (false, Localization.Get("Flow_ticket_not_in_tour"));
 
             if (TicketBuffer.Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
