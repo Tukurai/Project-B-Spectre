@@ -34,13 +34,13 @@ namespace Common.Workflows
             if (!Tour!.RegisteredTickets.Contains(ticketNumber) && !extra)
                     return (false, Localization.Get("Flow_ticket_not_in_tour"));
 
-            if (TicketBuffer.Contains(ticketNumber))
+            if (TicketBuffer.Keys.ToList().Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
 
             if (TicketBuffer.Count >= SettingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
                 return (false, Localization.Get("Flow_tour_no_space_for_tickets_in_tour"));
 
-            TicketBuffer.Add(ticketNumber);
+            TicketBuffer.Add(ticketNumber, extra);
 
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
@@ -75,7 +75,7 @@ namespace Common.Workflows
             if (!TicketBuffer.Any())
                 return (false, Localization.Get("Flow_no_tickets_scanned"));
 
-            Tour!.RegisteredTickets = TicketBuffer;
+            Tour!.RegisteredTickets = TicketBuffer.Keys.ToList();
             Tour!.GuideId = GuideId;
             Tour!.Departed = true;
 

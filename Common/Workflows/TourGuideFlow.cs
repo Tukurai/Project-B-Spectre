@@ -13,7 +13,7 @@ namespace Common.Workflows
     {
         public TourService TourService { get; set; }
         public Tour? Tour { get; private set; }
-        public List<int> TicketBuffer { get; private set; } = new List<int>();
+        public Dictionary<int, bool> TicketBuffer { get; private set; } = new Dictionary<int, bool>();
 
         public TourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService) 
             : base(context, localizationService, ticketService)
@@ -36,7 +36,7 @@ namespace Common.Workflows
 
         public override (bool Succeeded, string Message) Commit()
         {
-            TicketBuffer = new List<int>(); // Clear buffer
+            TicketBuffer = new Dictionary<int, bool>(); // Clear buffer
 
             return base.Commit();
         }

@@ -144,15 +144,23 @@ namespace Guide_Spectre
                 return;
             }
 
-            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer, "Remove_ticket_flow_title", "Remove_ticket_flow_current_column", "Remove_ticket_flow_ticket_remove_column", "blue", "red"));
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer.Keys.ToList(), "Remove_ticket_flow_title", "Remove_ticket_flow_current_column", "Remove_ticket_flow_ticket_remove_column", "blue", "red"));
 
             while (flow.Tour.RegisteredTickets.Any())
             {
                 var ticketNumber = Prompts.AskTicketNumber();
-                flow.RemoveTicket(ticketNumber);
+                GroupService groupService = ServiceProvider.GetService<GroupService>()!;
+                var group = groupService.GetGroupForTicket(ticketNumber)!;
+
+                var deleteGroup = true;
+                if (group.GroupOwnerId == ticketNumber && group.GroupTickets.Count > 1)
+                    deleteGroup = Prompts.AskConfirmation("Remove_ticket_flow_ask_delete_group");
+
+                flow.RemoveTicket(ticketNumber, deleteGroup);
+
                 AnsiConsole.Clear();
 
-                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer, "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column", "blue", "red"));
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer.Keys.ToList(), "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column", "blue", "red"));
 
                 if (!flow.Tour.RegisteredTickets.Any() || !Prompts.AskConfirmation("Remove_ticket_flow_ask_more_tickets"))
                     break;
@@ -185,7 +193,7 @@ namespace Guide_Spectre
                 return;
             }
 
-            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer, "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column", "blue", "green"));
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer.Keys.ToList(), "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column", "blue", "green"));
 
             while (flow.Tour.RegisteredTickets.Count < settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value)
             {
@@ -193,7 +201,7 @@ namespace Guide_Spectre
                 flow.AddTicket(ticketNumber);
                 AnsiConsole.Clear();
 
-                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer, "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column", "blue", "green"));
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer.Keys.ToList(), "Add_ticket_flow_title", "Add_ticket_flow_ticket_current_column", "Add_ticket_flow_ticket_add_column", "blue", "green"));
 
                 if (flow.Tour.RegisteredTickets.Count >= settingsService.GetValueAsInt("Max_capacity_per_tour")!.Value
                     || !Prompts.AskConfirmation("Add_ticket_flow_ask_more_tickets"))
@@ -227,7 +235,7 @@ namespace Guide_Spectre
                 return;
             }
 
-            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer, "Start_tour_flow_title", "Start_tour_flow_ticket_todo_column", "Start_tour_flow_ticket_done_column", "blue", "green"));
+            AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer.Keys.ToList(), "Start_tour_flow_title", "Start_tour_flow_ticket_todo_column", "Start_tour_flow_ticket_done_column", "blue", "green"));
 
             // Scan registered tickets
             ScanTickets(flow, flow.Tour.RegisteredTickets.Count, FlowStep.ScanRegistration);
@@ -272,7 +280,7 @@ namespace Guide_Spectre
 
                 AnsiConsole.Clear();
 
-                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer, "Start_tour_flow_title", "Start_tour_flow_ticket_todo_column", "Start_tour_flow_ticket_done_column", "blue", "green"));
+                AnsiConsole.Write(GenerateTable(flow.Tour!.RegisteredTickets.ToList(), flow.TicketBuffer.Keys.ToList(), "Start_tour_flow_title", "Start_tour_flow_ticket_todo_column", "Start_tour_flow_ticket_done_column", "blue", "green"));
 
                 if (flow.TicketBuffer.Count >= maxTickets || flow.Step != step)
                 {

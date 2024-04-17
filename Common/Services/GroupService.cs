@@ -21,5 +21,17 @@ namespace Common.Services
         {
             return Context.Groups.FirstOrDefault(group => group.GroupTickets.Contains(ticketNumber));
         }
+
+        internal void DeleteGroup(Group group)
+        {
+            Context.Groups.Remove(group);
+            Context.SaveChanges();
+        }
+
+        internal void AddGroup(Group group)
+        {
+            Context.Groups.Add(group);
+            Context.SaveChanges();
+        }
     }
 }

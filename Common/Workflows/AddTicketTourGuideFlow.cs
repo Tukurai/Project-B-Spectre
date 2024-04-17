@@ -14,11 +14,13 @@ namespace Common.Workflows
     public class AddTicketTourGuideFlow : TourGuideFlow
     {
         private SettingsService SettingsService { get; }
+        private GroupService GroupService { get; }
 
-        public AddTicketTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService, SettingsService settingsService) 
+        public AddTicketTourGuideFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, TourService tourService, SettingsService settingsService, GroupService groupService) 
             : base(context, localizationService, ticketService, tourService)
         {
             SettingsService = settingsService;
+            GroupService = groupService;
         }
 
         public (bool Success, string Message) AddTicket(int ticketNumber)
@@ -33,10 +35,10 @@ namespace Common.Workflows
             if (TourService.GetTourForTicket(ticketNumber) != null)
                 return (false, Localization.Get("Flow_ticket_already_in_other_tour"));
 
-            if (TicketBuffer.Contains(ticketNumber))
+            if (TicketBuffer.Keys.ToList().Contains(ticketNumber))
                 return (false, Localization.Get("Flow_ticket_already_added_to_list"));
 
-            TicketBuffer.Add(ticketNumber);
+            TicketBuffer.Add(ticketNumber, false);
 
             return (true, Localization.Get("Flow_ticket_added_to_list"));
         }
@@ -60,7 +62,10 @@ namespace Common.Workflows
             if (!TicketBuffer.Any())
                 return (false, Localization.Get("Flow_no_tickets_to_add"));
 
-            TicketBuffer.ForEach(t => Tour!.RegisteredTickets.Add(t));
+            foreach (int ticket in TicketBuffer.Keys)
+                GroupService.AddGroup(new Group() { GroupOwnerId = ticket, GroupTickets = new() { ticket } });
+
+            TicketBuffer.Keys.ToList().ForEach(t => Tour!.RegisteredTickets.Add(t));
 
             return base.Commit();
         }
