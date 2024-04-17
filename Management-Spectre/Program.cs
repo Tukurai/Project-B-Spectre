@@ -97,9 +97,9 @@ namespace Management_Spectre
                 currentPlanningTable.AddRow(id, role, name, enabled);
             }
 
-            var currentPlanningHeader = new Rule(Localization.Get("View_user_current_users"));
-            currentPlanningHeader.Justification = Justify.Left;
-            AnsiConsole.Write(currentPlanningHeader);
+            var currentUsersHeader = new Rule(Localization.Get("View_user_current_users"));
+            currentUsersHeader.Justification = Justify.Left;
+            AnsiConsole.Write(currentUsersHeader);
             AnsiConsole.Write(currentPlanningTable);
 
             AnsiConsole.WriteLine(Localization.Get("View_user_press_any_key_to_continue"));

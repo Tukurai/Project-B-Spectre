@@ -169,247 +169,247 @@
   },
   {
     "Key": "Management_plan_tours_today",
-    "Value": "Management_plan_tours_today | nl-NL",
+    "Value": "[green]Vandaag[/] plannen",
     "Locale": "nl-NL",
     "Id": 29
   },
   {
     "Key": "Management_plan_tours_tomorrow",
-    "Value": "Management_plan_tours_tomorrow | nl-NL",
+    "Value": "[green]Morgen[/] plannen",
     "Locale": "nl-NL",
     "Id": 30
   },
   {
     "Key": "Management_plan_tours_in_future",
-    "Value": "Management_plan_tours_in_future | nl-NL",
+    "Value": "[green]Periode[/] plannen",
     "Locale": "nl-NL",
     "Id": 31
   },
   {
     "Key": "Management_view_tours",
-    "Value": "Management_view_tours | nl-NL",
+    "Value": "Bekijk [green]periode[/]",
     "Locale": "nl-NL",
     "Id": 32
   },
   {
     "Key": "Management_user_creation",
-    "Value": "Management_user_creation | nl-NL",
+    "Value": "Gebruiker aanmaken",
     "Locale": "nl-NL",
     "Id": 33
   },
   {
     "Key": "Management_view_users",
-    "Value": "Management_view_users | nl-NL",
+    "Value": "Bekijk gebruikers",
     "Locale": "nl-NL",
     "Id": 34
   },
   {
     "Key": "Management_close",
-    "Value": "Management_close | nl-NL",
+    "Value": "Menu [red]afsluiten[/]",
     "Locale": "nl-NL",
     "Id": 35
   },
   {
     "Key": "Management_title",
-    "Value": "Management_title | nl-NL",
+    "Value": "Welkom in het beheerscherm.\nHier kunt u rondleiding plannen en nieuwe gebuikers aanmaken.",
     "Locale": "nl-NL",
     "Id": 36
   },
   {
     "Key": "Management_menu_more_options",
-    "Value": "Management_menu_more_options | nl-NL",
+    "Value": "[grey]Meer opties[/]",
     "Locale": "nl-NL",
     "Id": 37
   },
   {
     "Key": "Flow_date_start_null",
-    "Value": "Flow_date_start_null | nl-NL",
+    "Value": "[red]De startdatum is onjuist[/]",
     "Locale": "nl-NL",
     "Id": 38
   },
   {
     "Key": "Create_tour_flow_start_date",
-    "Value": "Create_tour_flow_start_date | nl-NL",
+    "Value": "Kies een start datum:",
     "Locale": "nl-NL",
     "Id": 39
   },
   {
     "Key": "Create_tour_flow_more_dates",
-    "Value": "Create_tour_flow_more_dates | nl-NL",
+    "Value": "[grey]Meer datums[/]",
     "Locale": "nl-NL",
     "Id": 40
   },
   {
     "Key": "Create_tour_flow_end_date",
-    "Value": "Create_tour_flow_end_date | nl-NL",
+    "Value": "Kies een eind datum:",
     "Locale": "nl-NL",
     "Id": 41
   },
   {
     "Key": "Flow_date_span_set",
-    "Value": "Flow_date_span_set | nl-NL",
+    "Value": "[green]Datums ingesteld[/]",
     "Locale": "nl-NL",
     "Id": 42
   },
   {
     "Key": "Create_tour_flow_start_time",
-    "Value": "Create_tour_flow_start_time | nl-NL",
+    "Value": "Kies een start tijd:",
     "Locale": "nl-NL",
     "Id": 43
   },
   {
     "Key": "Create_tour_flow_more_times",
-    "Value": "Create_tour_flow_more_times | nl-NL",
+    "Value": "[grey]Meer tijden[/]",
     "Locale": "nl-NL",
     "Id": 44
   },
   {
     "Key": "Create_tour_flow_end_time",
-    "Value": "Create_tour_flow_end_time | nl-NL",
+    "Value": "Kies een eind tijd:",
     "Locale": "nl-NL",
     "Id": 45
   },
   {
     "Key": "Flow_time_span_set",
-    "Value": "Flow_time_span_set | nl-NL",
+    "Value": "[green]Tijden ingesteld[/]",
     "Locale": "nl-NL",
     "Id": 46
   },
   {
     "Key": "Create_tour_flow_interval",
-    "Value": "Create_tour_flow_interval | nl-NL",
+    "Value": "Kies een [green]interval in minuten[/] tussen de rondleingen:",
     "Locale": "nl-NL",
     "Id": 47
   },
   {
     "Key": "Create_tour_flow_interval_invalid",
-    "Value": "Create_tour_flow_interval_invalid | nl-NL",
+    "Value": "[red]Invoer onjuist[/]",
     "Locale": "nl-NL",
     "Id": 48
   },
   {
     "Key": "Flow_interval_set",
-    "Value": "Flow_interval_set | nl-NL",
+    "Value": "[green]Interval ingesteld.[/]",
     "Locale": "nl-NL",
     "Id": 49
   },
   {
     "Key": "Create_tour_flow_date_column",
-    "Value": "Create_tour_flow_date_column | nl-NL",
+    "Value": "[lightsteelblue1]Planning datum[/]",
     "Locale": "nl-NL",
     "Id": 50
   },
   {
     "Key": "Create_tour_flow_time_column",
-    "Value": "Create_tour_flow_time_column | nl-NL",
+    "Value": "[lightsteelblue1]Starttijden[/]",
     "Locale": "nl-NL",
     "Id": 51
   },
   {
     "Key": "Create_tour_flow_new_planning",
-    "Value": "Create_tour_flow_new_planning | nl-NL",
+    "Value": "[lightsteelblue1]Nieuwe planning[/]:",
     "Locale": "nl-NL",
     "Id": 52
   },
   {
     "Key": "Create_tour_flow_old_planning",
-    "Value": "Create_tour_flow_old_planning | nl-NL",
+    "Value": "[lightsteelblue1]Oude planning[/]:",
     "Locale": "nl-NL",
     "Id": 53
   },
   {
     "Key": "Create_tour_flow_overwrite_current_confirmation",
-    "Value": "Create_tour_flow_overwrite_current_confirmation | nl-NL",
+    "Value": "Wil je de oude planning overschrijven?",
     "Locale": "nl-NL",
     "Id": 54
   },
   {
     "Key": "Create_tour_flow_ask_confirmation",
-    "Value": "Create_tour_flow_ask_confirmation | nl-NL",
+    "Value": "Wil je de nieuwe planning opslaan?",
     "Locale": "nl-NL",
     "Id": 55
   },
   {
     "Key": "Management_close_message",
-    "Value": "Management_close_message | nl-NL",
+    "Value": "[grey]<- U gaat terug naar het hoofdmenu.[/]",
     "Locale": "nl-NL",
     "Id": 56
   },
   {
     "Key": "View_tour_start_date",
-    "Value": "View_tour_start_date | nl-NL",
+    "Value": "Vanaf welke datum wilt u de planning inzien:",
     "Locale": "nl-NL",
     "Id": 57
   },
   {
     "Key": "View_tour_more_dates",
-    "Value": "View_tour_more_dates | nl-NL",
+    "Value": "[grey]Meer datums[/]",
     "Locale": "nl-NL",
     "Id": 58
   },
   {
     "Key": "View_tour_end_date",
-    "Value": "View_tour_end_date | nl-NL",
+    "Value": "Tot en met welke datum wilt u de planning inzien:",
     "Locale": "nl-NL",
     "Id": 59
   },
   {
     "Key": "View_tour_date_column",
-    "Value": "View_tour_date_column | nl-NL",
+    "Value": "[lightsteelblue1]Planning datum[/]",
     "Locale": "nl-NL",
     "Id": 60
   },
   {
     "Key": "View_tour_time_column",
-    "Value": "View_tour_time_column | nl-NL",
+    "Value": "[lightsteelblue1]Start tijden[/]",
     "Locale": "nl-NL",
     "Id": 61
   },
   {
     "Key": "View_tour_current_planning",
-    "Value": "View_tour_current_planning | nl-NL",
+    "Value": "[lightsteelblue1]Huidige planning:[/]",
     "Locale": "nl-NL",
     "Id": 62
   },
   {
     "Key": "View_tour_press_any_key_to_continue",
-    "Value": "View_tour_press_any_key_to_continue | nl-NL",
+    "Value": "Druk op een toets om terug te gaan",
     "Locale": "nl-NL",
     "Id": 63
   },
   {
     "Key": "View_user_id_column",
-    "Value": "View_user_id_column | nl-NL",
+    "Value": "[lightsteelblue1]Id:[/]",
     "Locale": "nl-NL",
     "Id": 64
   },
   {
     "Key": "View_user_role_column",
-    "Value": "View_user_role_column | nl-NL",
+    "Value": "[lightsteelblue1]Rol:[/]",
     "Locale": "nl-NL",
     "Id": 65
   },
   {
     "Key": "View_user_name_column",
-    "Value": "View_user_name_column | nl-NL",
+    "Value": "[lightsteelblue1]Naam:[/]",
     "Locale": "nl-NL",
     "Id": 66
   },
   {
     "Key": "View_user_enabled_column",
-    "Value": "View_user_enabled_column | nl-NL",
+    "Value": "[lightsteelblue1]Actief:[/]",
     "Locale": "nl-NL",
     "Id": 67
   },
   {
     "Key": "View_user_current_users",
-    "Value": "View_user_current_users | nl-NL",
+    "Value": "[lightsteelblue1]Gebruikers[/]:",
     "Locale": "nl-NL",
     "Id": 68
   },
   {
     "Key": "View_user_press_any_key_to_continue",
-    "Value": "View_user_press_any_key_to_continue | nl-NL",
+    "Value": "Druk op een toets om terug te gaan",
     "Locale": "nl-NL",
     "Id": 69
   },
@@ -772,5 +772,11 @@
     "Value": "[grey]Dit ticket staat al op de lijst.[/]",
     "Locale": "nl-NL",
     "Id": 129
+  },
+  {
+    "Key": "Remove_ticket_flow_ask_delete_group",
+    "Value": "Wil je de hele groep [red]verwijderen[/]?",
+    "Locale": "nl-NL",
+    "Id": 130
   }
 ]
