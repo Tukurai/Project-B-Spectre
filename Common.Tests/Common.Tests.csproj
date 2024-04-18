@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
     <Folder Include="Json\" />
     <Folder Include="Enums\" />
     <Folder Include="DAL\" />
