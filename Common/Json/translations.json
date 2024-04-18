@@ -157,7 +157,7 @@
   },
   {
     "Key": "Guide_menu_more_options",
-    "Value": "Guide_menu_more_options | nl-NL",
+    "Value": "[grey]Meer opties[/]",
     "Locale": "nl-NL",
     "Id": 27
   },
@@ -169,37 +169,37 @@
   },
   {
     "Key": "Management_plan_tours_today",
-    "Value": "[green]Vandaag[/] plannen",
+    "Value": "Vandaag [green]plannen[/]",
     "Locale": "nl-NL",
     "Id": 29
   },
   {
     "Key": "Management_plan_tours_tomorrow",
-    "Value": "[green]Morgen[/] plannen",
+    "Value": "Morgen [green]plannen[/]",
     "Locale": "nl-NL",
     "Id": 30
   },
   {
     "Key": "Management_plan_tours_in_future",
-    "Value": "[green]Periode[/] plannen",
+    "Value": "Periode [green]plannen[/]",
     "Locale": "nl-NL",
     "Id": 31
   },
   {
     "Key": "Management_view_tours",
-    "Value": "Bekijk [green]periode[/]",
+    "Value": "[green]Bekijk[/] periode",
     "Locale": "nl-NL",
     "Id": 32
   },
   {
     "Key": "Management_user_creation",
-    "Value": "Gebruiker aanmaken",
+    "Value": "Gebruiker [green]aanmaken[/]",
     "Locale": "nl-NL",
     "Id": 33
   },
   {
     "Key": "Management_view_users",
-    "Value": "Bekijk gebruikers",
+    "Value": "[green]Bekijk[/] gebruikers",
     "Locale": "nl-NL",
     "Id": 34
   },
@@ -211,7 +211,7 @@
   },
   {
     "Key": "Management_title",
-    "Value": "Welkom in het beheerscherm.\nHier kunt u rondleiding plannen en nieuwe gebuikers aanmaken.",
+    "Value": "Welkom in het [darkorange]beheerscherm[/].\nHier kunt u rondleiding en gebruikers [green]beheren[/].",
     "Locale": "nl-NL",
     "Id": 36
   },
@@ -229,7 +229,7 @@
   },
   {
     "Key": "Create_tour_flow_start_date",
-    "Value": "Kies een start datum:",
+    "Value": "Kies een [deeppink1]start datum[/]:",
     "Locale": "nl-NL",
     "Id": 39
   },
@@ -241,7 +241,7 @@
   },
   {
     "Key": "Create_tour_flow_end_date",
-    "Value": "Kies een eind datum:",
+    "Value": "Kies een [deeppink1]eind datum[/]:",
     "Locale": "nl-NL",
     "Id": 41
   },
@@ -253,7 +253,7 @@
   },
   {
     "Key": "Create_tour_flow_start_time",
-    "Value": "Kies een start tijd:",
+    "Value": "Kies een [deeppink1]start tijd[/]:",
     "Locale": "nl-NL",
     "Id": 43
   },
@@ -265,7 +265,7 @@
   },
   {
     "Key": "Create_tour_flow_end_time",
-    "Value": "Kies een eind tijd:",
+    "Value": "Kies een [deeppink1]eind tijd[/]:",
     "Locale": "nl-NL",
     "Id": 45
   },
@@ -277,7 +277,7 @@
   },
   {
     "Key": "Create_tour_flow_interval",
-    "Value": "Kies een [green]interval in minuten[/] tussen de rondleingen:",
+    "Value": "Kies een [deeppink1]interval in minuten[/] tussen de rondleingen:",
     "Locale": "nl-NL",
     "Id": 47
   },
@@ -319,13 +319,13 @@
   },
   {
     "Key": "Create_tour_flow_overwrite_current_confirmation",
-    "Value": "Wil je de oude planning overschrijven?",
+    "Value": "Wil je de oude planning [red]overschrijven[/]?",
     "Locale": "nl-NL",
     "Id": 54
   },
   {
     "Key": "Create_tour_flow_ask_confirmation",
-    "Value": "Wil je de nieuwe planning opslaan?",
+    "Value": "Wil je de nieuwe [green]planning opslaan[/]?",
     "Locale": "nl-NL",
     "Id": 55
   },
@@ -337,7 +337,7 @@
   },
   {
     "Key": "View_tour_start_date",
-    "Value": "Vanaf welke datum wilt u de planning inzien:",
+    "Value": "Vanaf welke [deeppink1]datum[/] wilt u de planning inzien:",
     "Locale": "nl-NL",
     "Id": 57
   },
@@ -349,7 +349,7 @@
   },
   {
     "Key": "View_tour_end_date",
-    "Value": "Tot en met welke datum wilt u de planning inzien:",
+    "Value": "Tot en met welke [deeppink1]datum[/] wilt u de planning inzien:",
     "Locale": "nl-NL",
     "Id": 59
   },
@@ -778,5 +778,29 @@
     "Value": "Wil je de hele groep [red]verwijderen[/]?",
     "Locale": "nl-NL",
     "Id": 130
+  },
+  {
+    "Key": "Ask_username",
+    "Value": "Wat is de [deeppink1]naam[/] van de gebruiker:",
+    "Locale": "nl-NL",
+    "Id": 131
+  },
+  {
+    "Key": "Invalid_username",
+    "Value": "[red]Ongeldige naam[/]",
+    "Locale": "nl-NL",
+    "Id": 132
+  },
+  {
+    "Key": "Ask_role",
+    "Value": "Welke [deeppink1]rol[/] heeft deze gebruiker:",
+    "Locale": "nl-NL",
+    "Id": 133
+  },
+  {
+    "Key": "Create_user_flow_ask_confirmation",
+    "Value": "Wilt u de gebruiker [green]definitief aanmaken[/]?",
+    "Locale": "nl-NL",
+    "Id": 134
   }
 ]

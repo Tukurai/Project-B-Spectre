@@ -21,6 +21,7 @@ namespace Common.Workflows
         public CreateUserFlow(DepotContext context, LocalizationService localizationService, TicketService ticketService, UserService userService) 
             : base(context, localizationService, ticketService)
         {
+            UserService = userService;
         }
 
         public void SetUsername(string username)

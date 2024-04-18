@@ -51,6 +51,7 @@ namespace Common.Services
 
         internal void AddUser(User user)
         {
+            user.Id = Context.Users.OrderByDescending(u => u.Id).First().Id + 100;
             Context.Users.Add(user);
         }
     }
